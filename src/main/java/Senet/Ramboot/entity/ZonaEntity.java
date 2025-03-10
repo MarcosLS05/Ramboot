@@ -1,12 +1,7 @@
 package Senet.Ramboot.entity;
 
-import java.util.List;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
-
+import java.math.BigDecimal;
 import org.antlr.v4.runtime.misc.NotNull;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,30 +11,36 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tipousuario")
-public class TipousuarioEntity {
+@Table(name = "zona")
+public class ZonaEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull    
-    @Size(min = 3, max = 255)
+    @NotNull
     private String titulo;
 
-    @OneToMany(mappedBy = "tipousuario", fetch = FetchType.LAZY)
-    private java.util.List<UsuarioEntity> usuarios = new java.util.ArrayList<>();
+    @NotNull
+    private BigDecimal precioHora;
+
+    @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
+    private java.util.List<BonosEntity> bonos = new java.util.ArrayList<>();
 
 
-    public TipousuarioEntity() {
+    public ZonaEntity() {
     }
 
-    public TipousuarioEntity(String titulo) {
+    public ZonaEntity(String titulo, BigDecimal precioHora) {
         this.titulo = titulo;
+        this.precioHora = precioHora;
     }
 
-    public TipousuarioEntity(Long id, String titulo) {
+    public ZonaEntity(Long id, String titulo, BigDecimal precioHora) {
         this.id = id;
         this.titulo = titulo;
+        this.precioHora = precioHora;
+
     }
 
     public Long getId() {
@@ -58,7 +59,11 @@ public class TipousuarioEntity {
         this.titulo = titulo;
     }
 
-    public int getUsuarios() {
-        return usuarios.size();
+    public BigDecimal getPrecio() {
+        return precioHora;
+    }
+
+    public void setPrecio(BigDecimal precioHora) {    
+        this.precioHora = precioHora;
     }
 }

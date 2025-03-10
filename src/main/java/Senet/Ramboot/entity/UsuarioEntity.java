@@ -6,13 +6,19 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -52,6 +58,14 @@ public class UsuarioEntity {
     @NotNull
     private Long CP;
 
+    @CreationTimestamp
+    @Column(name = "creado_en")
+    private Timestamp fecha_creacion;
+
+    @UpdateTimestamp
+    @Column(name = "ultimo_login_en")
+    private Timestamp ultima_conexion;
+
     @NotNull
     private String password;
 
@@ -59,7 +73,14 @@ public class UsuarioEntity {
     private String telefono;
 
     @NotNull
+    private boolean isActive;
+
+    @NotNull
     private int saldo;
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private java.util.List<GcontrataEntity> Gcontrata = new java.util.ArrayList<>();
+
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinColumn(name = "id_tipousuario")
@@ -67,7 +88,7 @@ public class UsuarioEntity {
 
     public UsuarioEntity() {}
 
-    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, Long DNI, String feedback, Long CP, int saldo, String telefono) {
+    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, Long DNI, String feedback, Long CP, int saldo, String telefono, TipousuarioEntity tipousuario) {
         this.username = username;   
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -78,18 +99,25 @@ public class UsuarioEntity {
         this.CP = CP;
         this.saldo = saldo;
         this.telefono = telefono;
+        this.isActive = isActive;
+        this.tipousuario = tipousuario;
+        this.fecha_creacion = new Timestamp(System.currentTimeMillis());
+        this.ultima_conexion = null;
     }
 
     public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, Long DNI, String feedback, Long CP,int saldo, String telefono, TipousuarioEntity tipousuario) {
         this.id = id;
         this.username = username;   
         this.nombre = nombre;
-        this.apellido1 = apellido1; 
+        this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.email = email;
+        this.DNI = DNI;
+        this.feedback = feedback;
+        this.CP = CP;
+        this.saldo = saldo;
         this.telefono = telefono;
         this.tipousuario = tipousuario;
-        
     }
     
 
@@ -149,6 +177,32 @@ public class UsuarioEntity {
         this.telefono = telefono;
     }
 
+    
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
+
+    public TipousuarioEntity getTipousuario() {
+        return tipousuario;
+    }
+
+    public void setTipousuario(TipousuarioEntity tipousuario) {
+        this.tipousuario = tipousuario;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -179,6 +233,26 @@ public class UsuarioEntity {
 
     public void setCP(Long cP) {
         CP = cP;
+    }
+
+    public Timestamp getCreadoEn() {
+        return fecha_creacion;
+    }
+
+    public void setCreadoEn(Timestamp creadoEn) {
+        this.fecha_creacion = creadoEn;
+    }
+
+    public Timestamp getUltimoLoginEn() {
+        return ultima_conexion;
+    }
+
+    public void setUltimoLoginEn(Timestamp ultimoLoginEn) {
+        this.ultima_conexion = ultimoLoginEn;
+    }
+
+    public int getGcontrataCount() {
+        return Gcontrata.size();
     }
 
 //  public TipousuarioEntity getTipousuario() {
