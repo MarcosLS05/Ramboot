@@ -155,7 +155,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
     
 
     public UsuarioEntity update(UsuarioEntity oUsuarioEntity) {
-        if (oAuthService.isEntrenadorPersonalWithItsOwnData(oUsuarioEntity.getId()) || oAuthService.isAdmin()
+        if (oAuthService.isEmpleadoWithItsOwnData   (oUsuarioEntity.getId()) || oAuthService.isAdmin()
                 || oAuthService.isClienteWithItsOwnData(oUsuarioEntity.getId())) {
             UsuarioEntity oUsuarioEntityFromDatabase = oUsuarioRepository.findById(oUsuarioEntity.getId()).get();
             if (oUsuarioEntity.getNombre() != null) {
