@@ -24,7 +24,6 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
     @NotNull
     private String username;
 
@@ -41,10 +40,17 @@ public class UsuarioEntity {
     private String apellido2;
 
     @NotNull
+    private Long DNI;
+
+    @NotNull
+    private String feedback;
+
+    @NotNull
     @Email
     private String email;
 
-
+    @NotNull
+    private Long CP;
 
     @NotNull
     private String password;
@@ -52,32 +58,40 @@ public class UsuarioEntity {
     @NotNull
     private String telefono;
 
+    @NotNull
+    private int saldo;
+
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinColumn(name = "id_tipousuario")
     private TipousuarioEntity tipousuario;
 
     public UsuarioEntity() {}
 
-    public UsuarioEntity(String nombre, String username, String apellido1, String apellido2, String email, String password, String telefono) {
+    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, Long DNI, String feedback, Long CP, int saldo, String telefono) {
         this.username = username;   
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.email = email;
-        this.password = password;
+        this.DNI = DNI;
+        this.feedback = feedback;
+        this.CP = CP;
+        this.saldo = saldo;
         this.telefono = telefono;
     }
 
-    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, String password, String telefono) {
+    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, Long DNI, String feedback, Long CP,int saldo, String telefono, TipousuarioEntity tipousuario) {
         this.id = id;
-        this.username = username;
+        this.username = username;   
         this.nombre = nombre;
-        this.apellido1 = apellido1;
+        this.apellido1 = apellido1; 
         this.apellido2 = apellido2;
         this.email = email;
-        this.password = password;    
         this.telefono = telefono;
+        this.tipousuario = tipousuario;
+        
     }
+    
 
     public Long getId() {
         return id;
@@ -133,6 +147,38 @@ public class UsuarioEntity {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getDNI() {
+        return DNI;
+    }
+
+    public void setDNI(Long dNI) {
+        DNI = dNI;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public Long getCP() {
+        return CP;
+    }
+
+    public void setCP(Long cP) {
+        CP = cP;
     }
 
 //  public TipousuarioEntity getTipousuario() {
