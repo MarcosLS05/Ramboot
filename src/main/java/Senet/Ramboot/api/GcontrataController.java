@@ -1,5 +1,5 @@
 package Senet.Ramboot.api;
 
-public class Tipousuario {
+public class GcontrataController {
     
 }

@@ -13,6 +13,6 @@ public interface ZonaRepository extends JpaRepository<ZonaEntity, Long> {
     
     Optional<ZonaEntity> findById(Long id);
     Page<ZonaEntity> findAll(Pageable oPageable);
-    Page<ZonaEntity> findByNombreContainingIgnoreCase(String oNombre, Pageable oPageable);
+    Page<ZonaEntity> findByTituloContaining(String oTitulo, Pageable oPageable);
     
 }

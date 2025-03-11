@@ -1,5 +1,5 @@
 package Senet.Ramboot.api;
 
-public class Bebida {
+public class BonoController {
     
 }

@@ -14,6 +14,6 @@ public interface BonoRepository extends JpaRepository<BonoEntity, Long> {
     @SuppressWarnings("null")
     Optional<BonoEntity> findById(Long id);
 
-    Optional<BonoEntity> findByNombre(String nombre);
+    Page<BonoEntity> findByNombreContaining(String nombre, Pageable oPageable);
     
 }

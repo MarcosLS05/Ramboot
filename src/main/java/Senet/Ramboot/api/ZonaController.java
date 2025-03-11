@@ -1,5 +1,5 @@
 package Senet.Ramboot.api;
 
-public class AuthService {
+public class ZonaController {
     
 }

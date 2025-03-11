@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import Senet.Ramboot.entity.BebidaEntity;
+import Senet.Ramboot.entity.SnackEntity;
 
 import java.util.Optional;
 
@@ -13,5 +14,7 @@ public interface BebidaRepository extends JpaRepository<BebidaEntity, Long> {
     
     Optional<BebidaEntity> findById(Long id);
 
-    Optional<BebidaEntity> findByNombre(String nombre);
+    Optional<BebidaEntity> findByNombreContaining(String nombre);
+
+    Page<BebidaEntity> findByNombreContaining(String nombre, Pageable oPageable);
 }
