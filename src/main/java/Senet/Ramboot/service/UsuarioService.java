@@ -35,6 +35,18 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
     @Autowired
     RandomService oRandomService;
 
+    private String[] arrFeedback =  {"Encontré la tienda a través de una búsqueda en Google",
+    "Un amigo me recomendó la tienda",
+    "Vi un anuncio en Facebook",
+    "Me enteré de la tienda a través de Instagram",
+    "Encontré la tienda en un directorio en línea",
+    "Un familiar me habló de la tienda",
+    "Vi un anuncio en YouTube",
+    "Encontré la tienda en un foro o comunidad en línea"};
+
+    private String[] arrUsernames = {"Pepito23", "LauLau90", "NachoKing", "MeryMery", "LoloGamer", "Carmenita12", "RositaRocks", "PacoPwnz", "LuisLuis23",
+    "AnitaSparkles", "RafaRafa99", "ManoloMaster", "LuciLuv", "MartaMiau", "SaraSass", "RocioRocksOn"};
+    
     private String[] arrNombres = {"Pepe", "Laura", "Ignacio", "Maria", "Lorenzo", "Carmen", "Rosa", "Paco", "Luis",
         "Ana", "Rafa", "Manolo", "Lucia", "Marta", "Sara", "Rocio"};
 
@@ -42,13 +54,21 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
         "Martinez", "Sanchez", "Gonzalez", "Gimenez", "Feliu", "Gonzalez", "Hermoso", "Vidal", "Escriche", "Moreno"};
 
 
+        private String[] arrLetras = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
+        "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     public Long randomCreate(Long cantidad) {
         for (int i = 0; i < cantidad; i++) {
             UsuarioEntity oUsuarioEntity = new UsuarioEntity();
+            oUsuarioEntity.setUsername(arrUsernames[oRandomService.getRandomInt(0, arrUsernames.length - 1)]);
             oUsuarioEntity.setNombre(arrNombres[oRandomService.getRandomInt(0, arrNombres.length - 1)]);
             oUsuarioEntity.setApellido1(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
             oUsuarioEntity.setApellido2(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
+            oUsuarioEntity.setDNI(String.valueOf(oRandomService.getRandomInt(10000000, 99999999)) + arrLetras[oRandomService.getRandomInt(0, arrLetras.length - 1)]);            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
+            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
             oUsuarioEntity.setEmail("email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
+            oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));            
+            oUsuarioEntity.setSaldo(oRandomService.getRandomInt(0, 100));
+            oUsuarioEntity.setActive(false);
             oUsuarioEntity.setTipousuario(oTipousuarioService.randomSelection());
             oUsuarioRepository.save(oUsuarioEntity);
         }
@@ -58,7 +78,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
     public UsuarioEntity getByEmail(String email) {
         UsuarioEntity oUsuarioEntity = oUsuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("El usuario con email " + email + " no existe"));
-        if (oAuthService.isEntrenadorPersonalWithItsOwnData(oUsuarioEntity.getId()) || oAuthService.isAdmin()
+        if (oAuthService.isEmpleadoWithItsOwnData(oUsuarioEntity.getId()) || oAuthService.isAdmin()
                 || oAuthService.isClienteWithItsOwnData(oUsuarioEntity.getId())) {
             return oUsuarioEntity;
         } else {
@@ -67,7 +87,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
     }
 
     public UsuarioEntity get(Long id) {
-        if (oAuthService.isEntrenadorPersonalWithItsOwnData(id) || oAuthService.isAdmin()
+        if (oAuthService.isEmpleadoWithItsOwnData(id) || oAuthService.isAdmin()
                 || oAuthService.isClienteWithItsOwnData(id)) {
             Optional<UsuarioEntity> usuario = oUsuarioRepository.findById(id);
             if (usuario.isPresent()) {

@@ -1,5 +1,6 @@
 package Senet.Ramboot.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -24,18 +25,18 @@ public class SnackEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 3, max = 255)
     private String nombre;
 
-    @NotNull
+    @Column(nullable = false)
     private BigDecimal precioUnidad;
 
-    @NotNull
+    @Column(nullable = false)
     private int stock;
 
     @OneToMany(mappedBy = "snack")
-    private List<BonosEntity> bonos;
+    private List<BonoEntity> bonos;
 
     public SnackEntity() {
     }

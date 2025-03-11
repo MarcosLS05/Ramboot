@@ -2,6 +2,8 @@ package Senet.Ramboot.entity;
 
 import java.math.BigDecimal;
 import org.antlr.v4.runtime.misc.NotNull;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -18,14 +20,14 @@ public class ZonaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String titulo;
 
-    @NotNull
+    @Column(nullable = false)
     private BigDecimal precioHora;
 
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
-    private java.util.List<BonosEntity> bonos = new java.util.ArrayList<>();
+    private java.util.List<BonoEntity> bonos = new java.util.ArrayList<>();
 
 
     public ZonaEntity() {

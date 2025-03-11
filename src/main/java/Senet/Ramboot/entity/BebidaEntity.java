@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,18 +23,18 @@ public class BebidaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 3, max = 255)
     private String nombre;
 
-    @NotNull
+    @Column(nullable = false)
     private BigDecimal precioUnidad;
 
-    @NotNull
+    @Column(nullable = false)
     private int stock;
 
-    @OneToMany(mappedBy = "bebida")
-    private List<BonosEntity> bonos;
+    @OneToMany(mappedBy = "bebida", fetch = FetchType.LAZY)
+    private List<BonoEntity> bonos;
 
     public BebidaEntity() {
     }

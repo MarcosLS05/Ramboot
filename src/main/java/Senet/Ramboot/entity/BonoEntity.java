@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,17 +16,17 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bonos")
-public class BonosEntity {
+public class BonoEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 3, max = 255)
     private String nombre;
 
-    @NotNull
+    @Column(nullable = false)
     private BigDecimal precio;
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
@@ -40,14 +41,14 @@ public class BonosEntity {
     @JoinColumn(name = "id_snack")
     private SnackEntity snack;
 
-    public BonosEntity() {
+    public BonoEntity() {
     }
-    public BonosEntity(String nombre, BigDecimal precio) {
+    public BonoEntity(String nombre, BigDecimal precio) {
         this.nombre = nombre;
         this.precio = precio;
     }
 
-    public BonosEntity(Long id, String nombre, BigDecimal precio) {
+    public BonoEntity(Long id, String nombre, BigDecimal precio) {
         this.id = id;
         this.nombre = nombre;    
         this.precio = precio;

@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class TipousuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull    
+    @Column(nullable = false)    
     @Size(min = 3, max = 255)
     private String titulo;
 

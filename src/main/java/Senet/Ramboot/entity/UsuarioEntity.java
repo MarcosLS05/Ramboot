@@ -30,33 +30,33 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String username;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 3, max = 255)
     private String nombre;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 3, max = 255)
     private String apellido1;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 3, max = 255)
     private String apellido2;
 
-    @NotNull
-    private Long DNI;
+    @Column(nullable = false)
+    private String DNI;
 
-    @NotNull
+    @Column(nullable = false)
     private String feedback;
 
-    @NotNull
+    @Column(nullable = false)
     @Email
     private String email;
 
-    @NotNull
-    private Long CP;
+    @Column(nullable = false)
+    private String CP;
 
     @CreationTimestamp
     @Column(name = "creado_en")
@@ -66,16 +66,16 @@ public class UsuarioEntity {
     @Column(name = "ultimo_login_en")
     private Timestamp ultima_conexion;
 
-    @NotNull
+    @Column(nullable = false)
     private String password;
 
-    @NotNull
-    private String telefono;
+    @Column(nullable = false)
+    private Long telefono;
 
-    @NotNull
+    @Column(nullable = false)
     private boolean isActive;
 
-    @NotNull
+
     private int saldo;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
@@ -88,7 +88,7 @@ public class UsuarioEntity {
 
     public UsuarioEntity() {}
 
-    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, Long DNI, String feedback, Long CP, int saldo, String telefono, TipousuarioEntity tipousuario) {
+    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, String DNI, String feedback, String CP, int saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.username = username;   
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -105,7 +105,7 @@ public class UsuarioEntity {
         this.ultima_conexion = null;
     }
 
-    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, Long DNI, String feedback, Long CP,int saldo, String telefono, TipousuarioEntity tipousuario) {
+    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, String DNI, String feedback, String CP,int saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.id = id;
         this.username = username;   
         this.nombre = nombre;
@@ -169,11 +169,11 @@ public class UsuarioEntity {
         this.password = password;
     }
 
-    public String getTelefono() {
+    public Long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(Long telefono) {
         this.telefono = telefono;
     }
 
@@ -211,11 +211,11 @@ public class UsuarioEntity {
         this.username = username;
     }
 
-    public Long getDNI() {
+    public String getDNI() {
         return DNI;
     }
 
-    public void setDNI(Long dNI) {
+    public void setDNI(String dNI) {
         DNI = dNI;
     }
 
@@ -227,11 +227,11 @@ public class UsuarioEntity {
         this.feedback = feedback;
     }
 
-    public Long getCP() {
+    public String getCP() {
         return CP;
     }
 
-    public void setCP(Long cP) {
+    public void setCP(String cP) {
         CP = cP;
     }
 

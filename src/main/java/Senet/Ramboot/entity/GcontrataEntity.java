@@ -2,6 +2,8 @@ package Senet.Ramboot.entity;
 
 import java.sql.Timestamp;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.CreationTimestamp;
  
 import jakarta.persistence.Column;
@@ -26,6 +28,12 @@ public class GcontrataEntity {
     @Column(name = "creado_en")
     private Timestamp fecha_creacion;
 
+    @Column(nullable = false)
+    private boolean metodoPago;
+
+    @Column(nullable = false)
+    private String ticket;
+
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
     private UsuarioEntity usuario;
@@ -37,13 +45,18 @@ public class GcontrataEntity {
     public GcontrataEntity() {
     }
 
-    public GcontrataEntity(UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(boolean metodoPago, String ticket, UsuarioEntity usuario, ZonaEntity zona) {
+        this.metodoPago = metodoPago;
+        this.ticket = ticket;
         this.usuario = usuario;
         this.zona = zona;
+        
     }
 
-    public GcontrataEntity(Long id, Timestamp fecha_creacion, UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(Long id,boolean metodoPago, String ticket, Timestamp fecha_creacion, UsuarioEntity usuario, ZonaEntity zona) {
         this.id = id;
+        this.metodoPago = metodoPago;
+        this.ticket = ticket;   
         this.fecha_creacion = fecha_creacion;
         this.usuario = usuario;
         this.zona = zona;
@@ -78,6 +91,22 @@ public class GcontrataEntity {
 
     public void setZona(ZonaEntity zona) {
         this.zona = zona;
+    }
+
+    public boolean isMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(boolean metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
 
     

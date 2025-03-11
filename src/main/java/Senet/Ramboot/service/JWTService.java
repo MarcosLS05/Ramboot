@@ -4,12 +4,13 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 import javax.crypto.SecretKey;
-
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+
 
 @Service
 public class JWTService {
@@ -33,12 +34,12 @@ public class JWTService {
                 .issuer(ISSUER)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 6000000))
-                .signWith(getSecretKey(), Jwts.SIG.HS256)
+                .signWith(getSecretKey(), SignatureAlgorithm.HS256)                
                 .compact();
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(token).getPayload();
+        return Jwts.parser().setSigningKey(getSecretKey()).parseClaimsJws(token).getBody();
     }
 
     public String validateToken(String sToken) {

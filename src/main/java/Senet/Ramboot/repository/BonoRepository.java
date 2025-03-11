@@ -1,5 +1,19 @@
 package Senet.Ramboot.repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-public class BonoRepository {
+import java.util.Optional;
+
+import Senet.Ramboot.entity.BonoEntity;
+
+public interface BonoRepository extends JpaRepository<BonoEntity, Long> {
+
+    @SuppressWarnings("null")
+    Optional<BonoEntity> findById(Long id);
+
+    Optional<BonoEntity> findByNombre(String nombre);
     
 }
