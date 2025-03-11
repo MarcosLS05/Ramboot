@@ -12,5 +12,5 @@ public interface GcontrataRepository extends JpaRepository<GcontrataEntity, Long
     
     Optional <GcontrataEntity> findById(Long id);
     Page<GcontrataEntity> findAll(Pageable oPageable);
-    Page<GcontrataEntity> findByNombreContainingIgnoreCase(String sNombre, Pageable oPageable);
+    Page<GcontrataEntity> findByTicketContaining(String ticket, Pageable oPageable);
 }
