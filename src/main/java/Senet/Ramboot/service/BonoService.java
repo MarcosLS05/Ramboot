@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import Senet.Ramboot.entity.BonoEntity;
-import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
 import Senet.Ramboot.repository.BonoRepository;
@@ -51,7 +50,7 @@ public Long randomCreate(Long cantidad){
 
     public BonoEntity create(BonoEntity oBonoEntity) {
         if (!oAuthService.isAdmin()) {
-            throw new UnauthorizedAccessException("No tienes permisos para crear el bonos");
+            throw new UnauthorizedAccessException("No tienes permisos para crear el bono");
         }
         return oBonoRepository.save(oBonoEntity);
 }

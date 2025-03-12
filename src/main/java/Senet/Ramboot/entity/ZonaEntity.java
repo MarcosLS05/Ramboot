@@ -32,6 +32,9 @@ public class ZonaEntity {
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
     private List<BonoEntity> bonos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
+    private List<GcontrataEntity> gcontrata = new ArrayList<>();
+
 
     public ZonaEntity() {
     }

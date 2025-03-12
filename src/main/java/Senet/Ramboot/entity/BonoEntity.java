@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,9 +28,9 @@ public class BonoEntity {
     @Column(nullable = false)
     private BigDecimal precio;
 
-    @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_zona")
-    private ZonaEntity ZonaEntity;
+    private ZonaEntity zona;  // Cambié "ZonaEntity" a "zona" para seguir la convención de nombres
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinColumn(name = "id_bebida")
@@ -70,10 +71,10 @@ public class BonoEntity {
         this.precio = precio;
     }
     public ZonaEntity getZonaEntity() {
-        return ZonaEntity;
+        return zona;
     }
     public void setZonaEntity(ZonaEntity zonaEntity) {
-        ZonaEntity = zonaEntity;
+        zona = zonaEntity;
     }
 
     
