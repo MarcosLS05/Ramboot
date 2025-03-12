@@ -9,6 +9,7 @@ import Senet.Ramboot.entity.SnackEntity;
 
 import java.util.Optional;
 
+@Repository
 public interface SnackRepository  extends JpaRepository<SnackEntity, Long> {
     
     Optional<SnackEntity> findById(Long id);

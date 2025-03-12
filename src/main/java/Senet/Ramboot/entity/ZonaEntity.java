@@ -1,6 +1,9 @@
 package Senet.Ramboot.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.Column;
@@ -27,7 +30,7 @@ public class ZonaEntity {
     private BigDecimal precioHora;
 
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
-    private java.util.List<BonoEntity> bonos = new java.util.ArrayList<>();
+    private List<BonoEntity> bonos = new ArrayList<>();
 
 
     public ZonaEntity() {

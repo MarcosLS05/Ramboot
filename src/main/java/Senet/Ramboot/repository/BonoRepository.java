@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import Senet.Ramboot.entity.BonoEntity;
 
+@Repository
 public interface BonoRepository extends JpaRepository<BonoEntity, Long> {
 
     @SuppressWarnings("null")

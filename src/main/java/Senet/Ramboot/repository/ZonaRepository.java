@@ -9,10 +9,13 @@ import Senet.Ramboot.entity.ZonaEntity;
 
 import java.util.Optional;
 
+@Repository
 public interface ZonaRepository extends JpaRepository<ZonaEntity, Long> {
     
     Optional<ZonaEntity> findById(Long id);
+
     Page<ZonaEntity> findAll(Pageable oPageable);
+
     Page<ZonaEntity> findByTituloContaining(String oTitulo, Pageable oPageable);
     
 }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import Senet.Ramboot.entity.BonoEntity;
+import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
 import Senet.Ramboot.repository.BonoRepository;
@@ -19,6 +20,9 @@ public class BonoService implements ServiceInterface <BonoEntity>{
     
 
     HttpServletRequest oHttpServletRequest;
+
+    @Autowired
+    BonoEntity oBonoEntity;
 
     @Autowired
     AuthService oAuthService;
@@ -32,11 +36,15 @@ public class BonoService implements ServiceInterface <BonoEntity>{
     @Autowired
     ZonaService oZonaService;
 
+
 public Long randomCreate(Long cantidad){
     if (!oAuthService.isAdmin()){
-        this.create(new BonoEntity("General", BigDecimal.valueOf(1.00)));
-        this.create(new BonoEntity("Bootcamp", BigDecimal.valueOf(3.50)));
-        this.create(new BonoEntity("StreamRoom", BigDecimal.valueOf(5.00)));
+        
+        this.create(new BonoEntity("DayPass", BigDecimal.valueOf(20.00)));
+        this.create(new BonoEntity("DayPass", BigDecimal.valueOf(30.00)));
+
+        
+        
     }
     return oBonoRepository.count();
 }

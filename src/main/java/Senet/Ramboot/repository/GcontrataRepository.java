@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import Senet.Ramboot.entity.GcontrataEntity;
+
+@Repository
 public interface GcontrataRepository extends JpaRepository<GcontrataEntity, Long> {
     
     Optional <GcontrataEntity> findById(Long id);

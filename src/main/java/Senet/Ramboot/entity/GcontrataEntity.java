@@ -2,10 +2,8 @@ package Senet.Ramboot.entity;
 
 import java.sql.Timestamp;
 
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
- 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +27,7 @@ public class GcontrataEntity {
     private Timestamp fecha_creacion;
 
     @Column(nullable = false)
-    private boolean metodoPago;
+    private String metodoPago;
 
     @Column(nullable = false)
     private String ticket;
@@ -45,7 +43,7 @@ public class GcontrataEntity {
     public GcontrataEntity() {
     }
 
-    public GcontrataEntity(boolean metodoPago, String ticket, UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(String metodoPago, String ticket, UsuarioEntity usuario, ZonaEntity zona) {
         this.metodoPago = metodoPago;
         this.ticket = ticket;
         this.usuario = usuario;
@@ -53,7 +51,7 @@ public class GcontrataEntity {
         
     }
 
-    public GcontrataEntity(Long id,boolean metodoPago, String ticket, Timestamp fecha_creacion, UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(Long id,String metodoPago, String ticket, Timestamp fecha_creacion, UsuarioEntity usuario, ZonaEntity zona) {
         this.id = id;
         this.metodoPago = metodoPago;
         this.ticket = ticket;   
@@ -93,11 +91,11 @@ public class GcontrataEntity {
         this.zona = zona;
     }
 
-    public boolean isMetodoPago() {
+    public String getMetodoPago() {
         return metodoPago;
     }
 
-    public void setMetodoPago(boolean metodoPago) {
+    public void setMetodoPago(String metodoPago) {
         this.metodoPago = metodoPago;
     }
 

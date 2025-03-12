@@ -67,7 +67,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
             oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
             oUsuarioEntity.setEmail("email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
             oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));            
-            oUsuarioEntity.setSaldo(oRandomService.getRandomInt(0, 100));
+            oUsuarioEntity.setSaldo(oRandomService.getRandomInt(0, 50));
             oUsuarioEntity.setActive(false);
             oUsuarioEntity.setTipousuario(oTipousuarioService.randomSelection());
             oUsuarioRepository.save(oUsuarioEntity);
