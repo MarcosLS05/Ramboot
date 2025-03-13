@@ -1,5 +1,6 @@
 package Senet.Ramboot.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Email;
@@ -23,7 +24,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuarios")
 public class UsuarioEntity {
 
     @Id
@@ -66,20 +67,20 @@ public class UsuarioEntity {
     @Column(name = "ultimo_login_en")
     private Timestamp ultima_conexion;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = true)
     private String password;
 
-    @Column(nullable = false)
     private Long telefono;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "is_active")
+    
     private boolean isActive;
 
 
-    private int saldo;
+    private double saldo;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    private java.util.List<GcontrataEntity> Gcontrata = new java.util.ArrayList<>();
+    private List<GcontrataEntity> Gcontrata = new ArrayList<>();
 
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
@@ -88,7 +89,7 @@ public class UsuarioEntity {
 
     public UsuarioEntity() {}
 
-    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, String DNI, String feedback, String CP, int saldo, Long telefono, TipousuarioEntity tipousuario) {
+    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, String DNI, String feedback, String CP, double saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.username = username;   
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -105,7 +106,7 @@ public class UsuarioEntity {
         this.ultima_conexion = null;
     }
 
-    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, String DNI, String feedback, String CP,int saldo, Long telefono, TipousuarioEntity tipousuario) {
+    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, String DNI, String feedback, String CP,double saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.id = id;
         this.username = username;   
         this.nombre = nombre;
@@ -177,8 +178,6 @@ public class UsuarioEntity {
         this.telefono = telefono;
     }
 
-    
-
     public boolean isActive() {
         return isActive;
     }
@@ -187,11 +186,11 @@ public class UsuarioEntity {
         this.isActive = isActive;
     }
 
-    public int getSaldo() {
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(int saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
@@ -251,17 +250,10 @@ public class UsuarioEntity {
         this.ultima_conexion = ultimoLoginEn;
     }
 
-    public int getGcontrataCount() {
+    public int getGcontrata() {
         return Gcontrata.size();
     }
 
-//  public TipousuarioEntity getTipousuario() {
-//     return tipousuario;
-//  }
-
-//  public void setTipousuario(TipousuarioEntity tipousuario) {
-//     this.tipousuario = tipousuario;
-//  }
     
     
 

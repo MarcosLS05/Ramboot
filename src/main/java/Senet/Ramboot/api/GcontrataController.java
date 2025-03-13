@@ -23,7 +23,8 @@ public class GcontrataController {
     @Autowired 
     GcontrataService oGcontrataService;
 
-       @GetMapping("")
+    
+    @GetMapping("")
     public ResponseEntity<Page<GcontrataEntity>> getPage(
             Pageable oPageable,
             @RequestParam  Optional<String> filter) {

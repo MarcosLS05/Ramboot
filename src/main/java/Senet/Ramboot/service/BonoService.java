@@ -21,9 +21,6 @@ public class BonoService implements ServiceInterface <BonoEntity>{
     HttpServletRequest oHttpServletRequest;
 
     @Autowired
-    BonoEntity oBonoEntity;
-
-    @Autowired
     AuthService oAuthService;
 
     @Autowired

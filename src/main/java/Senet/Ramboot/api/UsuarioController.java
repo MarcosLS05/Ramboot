@@ -24,7 +24,7 @@ import Senet.Ramboot.service.UsuarioService;
 public class UsuarioController {
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class Usuario {
 
     @Autowired

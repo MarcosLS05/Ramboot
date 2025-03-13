@@ -26,7 +26,7 @@ public class GcontrataEntity {
     @Column(name = "creado_en")
     private Timestamp fecha_creacion;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "metodo_pago")
     private String metodoPago;
 
     @Column(nullable = false)

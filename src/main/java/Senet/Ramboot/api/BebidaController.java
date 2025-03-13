@@ -24,7 +24,7 @@ import Senet.Ramboot.service.BebidaService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/bebida")
+@RequestMapping("/bebidas")
 public class BebidaController {
 
     @Autowired

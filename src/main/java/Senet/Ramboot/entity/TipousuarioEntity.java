@@ -1,5 +1,6 @@
 package Senet.Ramboot.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Email;
@@ -28,7 +29,7 @@ public class TipousuarioEntity {
     private String titulo;
 
     @OneToMany(mappedBy = "tipousuario", fetch = FetchType.LAZY)
-    private java.util.List<UsuarioEntity> usuarios = new java.util.ArrayList<>();
+    private List<UsuarioEntity> usuarios = new ArrayList<>();
 
 
     public TipousuarioEntity() {

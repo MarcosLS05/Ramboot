@@ -59,7 +59,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
     public Long randomCreate(Long cantidad) {
         for (int i = 0; i < cantidad; i++) {
             UsuarioEntity oUsuarioEntity = new UsuarioEntity();
-            oUsuarioEntity.setUsername(arrUsernames[oRandomService.getRandomInt(0, arrUsernames.length - 1)]);
+            oUsuarioEntity.setUsername(arrUsernames[oRandomService.getRandomInt(0, arrUsernames.length - 1)] + oRandomService.getRandomInt(999, 9999)); 
             oUsuarioEntity.setNombre(arrNombres[oRandomService.getRandomInt(0, arrNombres.length - 1)]);
             oUsuarioEntity.setApellido1(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
             oUsuarioEntity.setApellido2(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
@@ -67,7 +67,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
             oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
             oUsuarioEntity.setEmail("email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
             oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));            
-            oUsuarioEntity.setSaldo(oRandomService.getRandomInt(0, 50));
+            oUsuarioEntity.setSaldo(oRandomService.getRandomDouble(0.00, 50.00));
             oUsuarioEntity.setActive(false);
             oUsuarioEntity.setTipousuario(oTipousuarioService.randomSelection());
             oUsuarioRepository.save(oUsuarioEntity);

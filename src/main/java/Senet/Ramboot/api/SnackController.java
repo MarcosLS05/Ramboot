@@ -26,7 +26,7 @@ import Senet.Ramboot.entity.SnackEntity;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/snack")
+@RequestMapping("/snacks")
 public class SnackController {
 
     @Autowired

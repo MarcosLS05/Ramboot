@@ -11,4 +11,8 @@ public class RandomService {
         return (int) (ThreadLocalRandom.current().nextDouble() * (max - min + 1) + min);
     }
 
+    public double getRandomDouble(double min, double max) {
+        return Math.random() * (max - min) + min;
+    }
+
 }

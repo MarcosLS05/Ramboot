@@ -33,13 +33,13 @@ public class DatabaseService {
 
     public Long fill() {
 
-        oTipousuarioService.randomCreate(0L);
-        oUsuarioService.randomCreate(50L);
-        oZonaService.randomCreate(0L);
-        oBebidaService.randomCreate(10L);
-        oSnackService.randomCreate(10L); 
+ //       oTipousuarioService.randomCreate(0L);
+//       oUsuarioService.randomCreate(50L);
+//        oZonaService.randomCreate(0L);
+//        oBebidaService.randomCreate(10L);
+//        oSnackService.randomCreate(10L); 
         oGcontrataService.randomCreate(20L);
-        oBonoService.randomCreate(0L);
+//        oBonoService.randomCreate(0L);
         return 0L;
     }
 
