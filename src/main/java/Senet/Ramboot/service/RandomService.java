@@ -2,6 +2,7 @@ package Senet.Ramboot.service;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -14,5 +15,7 @@ public class RandomService {
     public double getRandomDouble(double min, double max) {
         return Math.random() * (max - min) + min;
     }
+
+
 
 }
