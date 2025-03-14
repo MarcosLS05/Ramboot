@@ -56,24 +56,24 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
 
         private String[] arrLetras = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
         "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    public Long randomCreate(Long cantidad) {
-        for (int i = 0; i < cantidad; i++) {
-            UsuarioEntity oUsuarioEntity = new UsuarioEntity();
-            oUsuarioEntity.setUsername(arrUsernames[oRandomService.getRandomInt(0, arrUsernames.length - 1)] + oRandomService.getRandomInt(999, 9999)); 
-            oUsuarioEntity.setNombre(arrNombres[oRandomService.getRandomInt(0, arrNombres.length - 1)]);
-            oUsuarioEntity.setApellido1(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
-            oUsuarioEntity.setApellido2(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
-            oUsuarioEntity.setDNI(String.valueOf(oRandomService.getRandomInt(10000000, 99999999)) + arrLetras[oRandomService.getRandomInt(0, arrLetras.length - 1)]);            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
-            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
-            oUsuarioEntity.setEmail("email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
-            oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));            
-            oUsuarioEntity.setSaldo(oRandomService.getRandomDouble(0.00, 50.00));
-            oUsuarioEntity.setActive(false);
-            oUsuarioEntity.setTipousuario(oTipousuarioService.randomSelection());
-            oUsuarioRepository.save(oUsuarioEntity);
-        }
-        return oUsuarioRepository.count();
-    }
+//    public Long randomCreate(Long cantidad) {
+//        for (int i = 0; i < cantidad; i++) {
+//            UsuarioEntity oUsuarioEntity = new UsuarioEntity();
+//            oUsuarioEntity.setUsername(arrUsernames[oRandomService.getRandomInt(0, arrUsernames.length - 1)] + oRandomService.getRandomInt(999, 9999)); 
+//            oUsuarioEntity.setNombre(arrNombres[oRandomService.getRandomInt(0, arrNombres.length - 1)]);
+//            oUsuarioEntity.setApellido1(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
+//            oUsuarioEntity.setApellido2(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
+//            oUsuarioEntity.setDNI(String.valueOf(oRandomService.getRandomInt(10000000, 99999999)) + arrLetras[oRandomService.getRandomInt(0, arrLetras.length - 1)]);            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
+//            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
+//            oUsuarioEntity.setEmail("email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
+//            oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));            
+//            oUsuarioEntity.setSaldo(oRandomService.getRandomDouble(0.00, 50.00));
+//            oUsuarioEntity.setActive(false);
+//            oUsuarioEntity.setTipousuario(oTipousuarioService.randomSelection());
+//            oUsuarioRepository.save(oUsuarioEntity);
+//        }
+//        return oUsuarioRepository.count();
+//    }
 
     public UsuarioEntity getByEmail(String email) {
         UsuarioEntity oUsuarioEntity = oUsuarioRepository.findByEmail(email)
@@ -207,5 +207,11 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
 
     public UsuarioEntity randomSelection() {
         return oUsuarioRepository.findById((long) oRandomService.getRandomInt(1, (int) (long) this.count())).get();
+    }
+
+    @Override
+    public Long randomCreate(Long cantidad) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'randomCreate'");
     }
 }

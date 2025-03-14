@@ -36,6 +36,7 @@ public class GcontrataEntity {
     @JoinColumn(name = "id_usuario")
     private UsuarioEntity usuario;
 
+
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinColumn(name = "id_zona")
     private ZonaEntity zona;

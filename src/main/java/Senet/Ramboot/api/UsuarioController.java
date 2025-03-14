@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import Senet.Ramboot.entity.UsuarioEntity;
 import Senet.Ramboot.service.UsuarioService;
 
-public class UsuarioController {
+
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/usuarios")
-public class Usuario {
+public class UsuarioController {
 
     @Autowired
     UsuarioService oUsuarioService;
@@ -87,4 +87,4 @@ public class Usuario {
         return new ResponseEntity<UsuarioEntity>(oUsuarioService.setTipoUsuario(id, idtipousuario), HttpStatus.OK);
     }
 }   
-}
+

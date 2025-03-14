@@ -10,6 +10,8 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import jakarta.persistence.Column;
@@ -78,10 +80,11 @@ public class UsuarioEntity {
     private boolean isActive;
 
 
-    private BigDecimal saldo;
+    private double saldo;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<GcontrataEntity> Gcontrata = new ArrayList<>();
+    @JsonIgnore
+    private List<GcontrataEntity> Gcontrata;
 
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
@@ -90,7 +93,7 @@ public class UsuarioEntity {
 
     public UsuarioEntity() {}
 
-    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, String DNI, String feedback, String CP, BigDecimal saldo, Long telefono, TipousuarioEntity tipousuario) {
+    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, String DNI, String feedback, String CP, double saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.username = username;   
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -107,7 +110,7 @@ public class UsuarioEntity {
         this.ultima_conexion = null;
     }
 
-    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, String DNI, String feedback, String CP,BigDecimal saldo, Long telefono, TipousuarioEntity tipousuario) {
+    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, String DNI, String feedback, String CP,double saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.id = id;
         this.username = username;   
         this.nombre = nombre;
@@ -187,11 +190,11 @@ public class UsuarioEntity {
         this.isActive = isActive;
     }
 
-    public BigDecimal getSaldo() {
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(BigDecimal saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 

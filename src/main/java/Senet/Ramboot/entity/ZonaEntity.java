@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,7 +35,8 @@ public class ZonaEntity {
     private List<BonoEntity> bonos = new ArrayList<>();
 
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
-    private List<GcontrataEntity> gcontrata = new ArrayList<>();
+    @JsonIgnore
+    private List<GcontrataEntity> Gcontrata;
 
 
     public ZonaEntity() {
@@ -73,5 +76,9 @@ public class ZonaEntity {
 
     public void setPrecio(BigDecimal precioHora) {    
         this.precioHora = precioHora;
+    }
+
+    public int getGcontrata() {
+        return Gcontrata.size();
     }
 }
