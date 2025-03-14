@@ -140,7 +140,7 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity>{
             oGcontrataEntity.setTicket(generarTicketRandom());
             oGcontrataEntity.setZona(oZonaService.randomSelection());
             oGcontrataEntity.setUsuario(oUsuarioService.randomSelection());
-            oGcontrataRepository.save(oGcontrataEntity); // Agregar esta línea para guardar el objeto en la base de datos
+            oGcontrataRepository.save(oGcontrataEntity); 
         }
                     
         return oGcontrataRepository.count();
