@@ -68,7 +68,7 @@ public class AuthService {
         return this.getUsuarioFromToken().getTipousuario().getId() == 3L;
     }
 
-    public boolean isAdminOrContable() {
+    public boolean isAdminOrEmpleado() {
         return this.isAdmin() || this.isEmpleado();
     }
 

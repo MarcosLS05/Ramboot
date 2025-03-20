@@ -76,7 +76,6 @@ public class UsuarioEntity {
     private Long telefono;
 
     @Column(nullable = false, name = "is_active")
-    
     private boolean isActive;
 
 
