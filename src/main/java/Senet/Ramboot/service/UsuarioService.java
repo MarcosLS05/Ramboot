@@ -15,6 +15,7 @@ import Senet.Ramboot.entity.TipousuarioEntity;
 import Senet.Ramboot.entity.UsuarioEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
+
 @Service
 public class UsuarioService implements ServiceInterface<UsuarioEntity> {
 
@@ -25,7 +26,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
 
     @Autowired
     TipousuarioRepository oTipousuarioRepository;
-      
+
     @Autowired
     private TipousuarioService oTipousuarioService;
 
@@ -35,38 +36,44 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
     @Autowired
     RandomService oRandomService;
 
-    private String[] arrFeedback =  {"Encontré la tienda a través de una búsqueda en Google",
-    "Un amigo me recomendó la tienda",
-    "Vi un anuncio en Facebook",
-    "Me enteré de la tienda a través de Instagram",
-    "Encontré la tienda en un directorio en línea",
-    "Un familiar me habló de la tienda",
-    "Vi un anuncio en YouTube",
-    "Encontré la tienda en un foro o comunidad en línea"};
+    private String[] arrFeedback = { "Encontré la tienda a través de una búsqueda en Google",
+            "Un amigo me recomendó la tienda",
+            "Vi un anuncio en Facebook",
+            "Me enteré de la tienda a través de Instagram",
+            "Encontré la tienda en un directorio en línea",
+            "Un familiar me habló de la tienda",
+            "Vi un anuncio en YouTube",
+            "Encontré la tienda en un foro o comunidad en línea" };
 
-    private String[] arrUsernames = {"Pepito23", "LauLau90", "NachoKing", "MeryMery", "LoloGamer", "Carmenita12", "RositaRocks", "PacoPwnz", "LuisLuis23",
-    "AnitaSparkles", "RafaRafa99", "ManoloMaster", "LuciLuv", "MartaMiau", "SaraSass", "RocioRocksOn"};
-    
-    private String[] arrNombres = {"Pepe", "Laura", "Ignacio", "Maria", "Lorenzo", "Carmen", "Rosa", "Paco", "Luis",
-        "Ana", "Rafa", "Manolo", "Lucia", "Marta", "Sara", "Rocio"};
+    private String[] arrUsernames = { "Pepito23", "LauLau90", "NachoKing", "MeryMery", "LoloGamer", "Carmenita12",
+            "RositaRocks", "PacoPwnz", "LuisLuis23",
+            "AnitaSparkles", "RafaRafa99", "ManoloMaster", "LuciLuv", "MartaMiau", "SaraSass", "RocioRocksOn" };
 
-    private String[] arrApellidos = {"Sancho", "Gomez", "Pérez", "Rodriguez", "Garcia", "Fernandez", "Lopez",
-        "Martinez", "Sanchez", "Gonzalez", "Gimenez", "Feliu", "Gonzalez", "Hermoso", "Vidal", "Escriche", "Moreno"};
+    private String[] arrNombres = { "Pepe", "Laura", "Ignacio", "Maria", "Lorenzo", "Carmen", "Rosa", "Paco", "Luis",
+            "Ana", "Rafa", "Manolo", "Lucia", "Marta", "Sara", "Rocio" };
 
+    private String[] arrApellidos = { "Sancho", "Gomez", "Pérez", "Rodriguez", "Garcia", "Fernandez", "Lopez",
+            "Martinez", "Sanchez", "Gonzalez", "Gimenez", "Feliu", "Gonzalez", "Hermoso", "Vidal", "Escriche",
+            "Moreno" };
 
-        private String[] arrLetras = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
-        "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    private String[] arrLetras = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+            "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
     public Long randomCreate(Long cantidad) {
         for (int i = 0; i < cantidad; i++) {
             UsuarioEntity oUsuarioEntity = new UsuarioEntity();
-            oUsuarioEntity.setUsername(arrUsernames[oRandomService.getRandomInt(0, arrUsernames.length - 1)] + oRandomService.getRandomInt(999, 9999)); 
+            oUsuarioEntity.setUsername(arrUsernames[oRandomService.getRandomInt(0, arrUsernames.length - 1)]
+                    + oRandomService.getRandomInt(999, 9999));
             oUsuarioEntity.setNombre(arrNombres[oRandomService.getRandomInt(0, arrNombres.length - 1)]);
             oUsuarioEntity.setApellido1(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
             oUsuarioEntity.setApellido2(arrApellidos[oRandomService.getRandomInt(0, arrApellidos.length - 1)]);
-            oUsuarioEntity.setDNI(String.valueOf(oRandomService.getRandomInt(10000000, 99999999)) + arrLetras[oRandomService.getRandomInt(0, arrLetras.length - 1)]);            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
-            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length -1)]);
-            oUsuarioEntity.setEmail("email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
-            oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));            
+            oUsuarioEntity.setDNI(String.valueOf(oRandomService.getRandomInt(10000000, 99999999))
+                    + arrLetras[oRandomService.getRandomInt(0, arrLetras.length - 1)]);
+            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length - 1)]);
+            oUsuarioEntity.setFeedback(arrFeedback[oRandomService.getRandomInt(0, arrFeedback.length - 1)]);
+            oUsuarioEntity.setEmail(
+                    "email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
+            oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));
             oUsuarioEntity.setSaldo(oRandomService.getRandomDouble(0.00, 50.00));
             oUsuarioEntity.setActive(false);
             oUsuarioEntity.setTipousuario(oTipousuarioService.randomSelection());
@@ -116,15 +123,16 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
 
     }
 
-    public Page<UsuarioEntity> getPageXTipoUsuario(Pageable oPageable, Optional<String> filter, Optional<Long> id_tipousuario) {
+    public Page<UsuarioEntity> getPageXTipoUsuario(Pageable oPageable, Optional<String> filter,
+            Optional<Long> id_tipousuario) {
         if (filter.isPresent()) {
             if (id_tipousuario.isPresent()) {
                 return oUsuarioRepository
                         .findByTipousuarioIdAndTituloContaining(
-                            id_tipousuario.get(), filter.get(), oPageable);
+                                id_tipousuario.get(), filter.get(), oPageable);
             } else {
                 throw new ResourceNotFoundException("Tipousuario no encontrado");
-            }            
+            }
         } else {
             if (id_tipousuario.isPresent()) {
                 return oUsuarioRepository.findByTipousuarioId(id_tipousuario.get(), oPageable);
@@ -158,26 +166,27 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
         return oUsuarioRepository.save(oUsuarioEntity);
     }
 
-    
     public UsuarioEntity create(UsuarioEntity oUsuarioEntity) {
         if (oAuthService.isAdmin()) {
             // Verificar si el TipoUsuario existe antes de asignarlo
             oUsuarioEntity.setTipousuario(
-                oTipousuarioRepository.findById(oUsuarioEntity.getTipousuario().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("TipoUsuario no encontrado"))
-            );
-            
+                    oTipousuarioRepository.findById(oUsuarioEntity.getTipousuario().getId())
+                            .orElseThrow(() -> new ResourceNotFoundException("TipoUsuario no encontrado")));
+
             return oUsuarioRepository.save(oUsuarioEntity);
         } else {
             throw new UnauthorizedAccessException("No tienes permisos para crear el usuario");
         }
     }
-    
 
     public UsuarioEntity update(UsuarioEntity oUsuarioEntity) {
-        if (oAuthService.isEmpleadoWithItsOwnData   (oUsuarioEntity.getId()) || oAuthService.isAdmin()
+        if (oAuthService.isEmpleadoWithItsOwnData(oUsuarioEntity.getId()) || oAuthService.isAdmin()
                 || oAuthService.isClienteWithItsOwnData(oUsuarioEntity.getId())) {
             UsuarioEntity oUsuarioEntityFromDatabase = oUsuarioRepository.findById(oUsuarioEntity.getId()).get();
+
+            if (oUsuarioEntity.getUsername() != null) {
+                oUsuarioEntityFromDatabase.setUsername(oUsuarioEntity.getUsername());
+            }
             if (oUsuarioEntity.getNombre() != null) {
                 oUsuarioEntityFromDatabase.setNombre(oUsuarioEntity.getNombre());
             }
@@ -189,6 +198,27 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
             }
             if (oUsuarioEntity.getEmail() != null) {
                 oUsuarioEntityFromDatabase.setEmail(oUsuarioEntity.getEmail());
+            }
+            if (oUsuarioEntity.getDNI() != null) {
+                oUsuarioEntityFromDatabase.setDNI(oUsuarioEntity.getDNI());
+            }
+            if (oUsuarioEntity.getCP() != null) {
+                oUsuarioEntityFromDatabase.setCP(oUsuarioEntity.getCP());
+            }
+            if (oUsuarioEntity.getFeedback() != null) {
+                oUsuarioEntityFromDatabase.setFeedback(oUsuarioEntity.getCP());
+            }
+            if (oUsuarioEntity.getTelefono() != null) {
+                oUsuarioEntityFromDatabase.setTelefono(oUsuarioEntity.getTelefono());
+            }
+            if (oUsuarioEntity.getSaldo() != 0) {
+                oUsuarioEntityFromDatabase.setSaldo(oUsuarioEntity.getSaldo());
+            }
+            if (oUsuarioEntity.getFeedback() != null) {
+                oUsuarioEntityFromDatabase.setFeedback(oUsuarioEntity.getFeedback());
+            }
+            if (oUsuarioEntity.getTipousuario() != null) {
+                oUsuarioEntityFromDatabase.setTipousuario(oUsuarioEntity.getTipousuario());
             }
             return oUsuarioRepository.save(oUsuarioEntityFromDatabase);
         } else {
@@ -208,6 +238,5 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
     public UsuarioEntity randomSelection() {
         return oUsuarioRepository.findById((long) oRandomService.getRandomInt(1, (int) (long) this.count())).get();
     }
-
 
 }

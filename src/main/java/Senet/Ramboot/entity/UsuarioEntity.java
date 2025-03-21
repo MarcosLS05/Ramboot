@@ -25,7 +25,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "usuarios")
 public class UsuarioEntity {
@@ -78,22 +77,23 @@ public class UsuarioEntity {
     @Column(nullable = false, name = "is_active")
     private boolean isActive;
 
-
     private double saldo;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<GcontrataEntity> Gcontrata;
 
-
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinColumn(name = "id_tipousuario")
     private TipousuarioEntity tipousuario;
 
-    public UsuarioEntity() {}
+    public UsuarioEntity() {
+    }
 
-    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email, boolean isActive, String DNI, String feedback, String CP, double saldo, Long telefono, TipousuarioEntity tipousuario) {
-        this.username = username;   
+    public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email,
+            boolean isActive, String DNI, String feedback, String CP, double saldo, Long telefono,
+            TipousuarioEntity tipousuario) {
+        this.username = username;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -109,9 +109,10 @@ public class UsuarioEntity {
         this.ultima_conexion = null;
     }
 
-    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email, String DNI, String feedback, String CP,double saldo, Long telefono, TipousuarioEntity tipousuario) {
+    public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email,
+            String DNI, String feedback, String CP, double saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.id = id;
-        this.username = username;   
+        this.username = username;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -123,7 +124,6 @@ public class UsuarioEntity {
         this.telefono = telefono;
         this.tipousuario = tipousuario;
     }
-    
 
     public Long getId() {
         return id;
@@ -254,10 +254,12 @@ public class UsuarioEntity {
     }
 
     public int getGcontrata() {
-        return Gcontrata.size();
-    }
+        if (Gcontrata == null) {
+            return 0;
+        } else {
+            return Gcontrata.size();
+        }
 
-    
-    
+    }
 
 }

@@ -15,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "bebidas")
 public class BebidaEntity {
@@ -28,7 +29,7 @@ public class BebidaEntity {
     private String nombre;
 
     @Column(nullable = false)
-    private BigDecimal precioUnidad;
+    private BigDecimal precio_unidad;
 
     @Column(nullable = false)
     private int stock;
@@ -39,16 +40,16 @@ public class BebidaEntity {
     public BebidaEntity() {
     }
 
-    public BebidaEntity(String nombre, BigDecimal precioUnidad, int stock) {
+    public BebidaEntity(String nombre, BigDecimal precio_unidad, int stock) {
         this.nombre = nombre;
-        this.precioUnidad = precioUnidad;
+        this.precio_unidad = precio_unidad;
         this.stock = stock;
     }
 
-    public BebidaEntity(Long id, String nombre, BigDecimal precioUnidad, int stock) {
+    public BebidaEntity(Long id, String nombre, BigDecimal precio_unidad, int stock) {
         this.id = id;
         this.nombre = nombre;
-        this.precioUnidad = precioUnidad;
+        this.precio_unidad = precio_unidad;
         this.stock = stock;
     }
 
@@ -69,11 +70,11 @@ public class BebidaEntity {
     }
 
     public BigDecimal getPrecio() {
-        return precioUnidad;
+        return precio_unidad;
     }
 
     public void setPrecio(BigDecimal precioUnidad) {
-        this.precioUnidad = precioUnidad;
+        this.precio_unidad = precioUnidad;
     }
 
     public int getStock() {
@@ -83,5 +84,5 @@ public class BebidaEntity {
     public void setStock(int stock) {
         this.stock = stock;
     }
-    
+
 }
