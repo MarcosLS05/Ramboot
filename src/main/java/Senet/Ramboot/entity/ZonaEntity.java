@@ -25,19 +25,17 @@ public class ZonaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "titulo")
     private String titulo;
 
-    @Column(nullable = false)
+    @Column(name = "precio_hora")
     private BigDecimal precioHora;
 
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
     private List<BonoEntity> bonos = new ArrayList<>();
 
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<GcontrataEntity> Gcontrata;
-
 
     public ZonaEntity() {
     }
@@ -74,11 +72,24 @@ public class ZonaEntity {
         return precioHora;
     }
 
-    public void setPrecio(BigDecimal precioHora) {    
+    public void setPrecio(BigDecimal precioHora) {
         this.precioHora = precioHora;
     }
 
     public int getGcontrata() {
-        return Gcontrata.size();
+        if (Gcontrata == null) {
+            return 0;
+        } else {
+            return Gcontrata.size();
+        }
+
+    }
+
+    public int getBono() {
+        if (bonos == null) {
+            return 0;
+        } else {
+            return bonos.size();
+        }
     }
 }

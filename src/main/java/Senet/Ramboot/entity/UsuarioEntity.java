@@ -1,18 +1,10 @@
 package Senet.Ramboot.entity;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-
-import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -80,7 +72,6 @@ public class UsuarioEntity {
     private double saldo;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<GcontrataEntity> Gcontrata;
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)

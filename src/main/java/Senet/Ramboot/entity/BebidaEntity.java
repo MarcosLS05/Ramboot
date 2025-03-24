@@ -85,4 +85,12 @@ public class BebidaEntity {
         this.stock = stock;
     }
 
+    public int getBono() {
+        if (bonos == null) {
+            return 0;
+        } else {
+            return bonos.size();
+        }
+    }
+
 }

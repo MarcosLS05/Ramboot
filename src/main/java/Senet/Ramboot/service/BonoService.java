@@ -15,8 +15,7 @@ import Senet.Ramboot.repository.BonoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class BonoService implements ServiceInterface <BonoEntity>{
-    
+public class BonoService implements ServiceInterface<BonoEntity> {
 
     HttpServletRequest oHttpServletRequest;
 
@@ -32,25 +31,20 @@ public class BonoService implements ServiceInterface <BonoEntity>{
     @Autowired
     ZonaService oZonaService;
 
-
-public Long randomCreate(Long cantidad){
-    if (!oAuthService.isAdmin()){
-        
-        this.create(new BonoEntity("DayPass", BigDecimal.valueOf(20.00)));
-        this.create(new BonoEntity("DayPass", BigDecimal.valueOf(30.00)));
-
-        
-        
-    }
-    return oBonoRepository.count();
-}
+    // public Long randomCreate(Long cantidad){
+    // if (!oAuthService.isAdmin()){
+    // this.create(new BonoEntity("DayPass", BigDecimal.valueOf(20.00)));
+    // this.create(new BonoEntity("DayPass", BigDecimal.valueOf(30.00)));
+    // }
+    // return oBonoRepository.count();
+    // }
 
     public BonoEntity create(BonoEntity oBonoEntity) {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para crear el bono");
         }
         return oBonoRepository.save(oBonoEntity);
-}
+    }
 
     public Page<BonoEntity> getPage(Pageable oPageable, Optional<String> filter) {
         if (!oAuthService.isAdmin()) {
@@ -110,5 +104,11 @@ public Long randomCreate(Long cantidad){
     public BonoEntity randomSelection() {
         return oBonoRepository.findAll()
                 .get(oRandomService.getRandomInt(0, (int) (oBonoRepository.count() - 1)));
+    }
+
+    @Override
+    public Long randomCreate(Long cantidad) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'randomCreate'");
     }
 }
