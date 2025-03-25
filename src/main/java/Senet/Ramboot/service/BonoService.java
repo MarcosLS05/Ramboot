@@ -8,7 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import Senet.Ramboot.entity.BebidaEntity;
 import Senet.Ramboot.entity.BonoEntity;
+import Senet.Ramboot.entity.SnackEntity;
+import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
 import Senet.Ramboot.repository.BonoRepository;
@@ -30,6 +33,12 @@ public class BonoService implements ServiceInterface<BonoEntity> {
 
     @Autowired
     ZonaService oZonaService;
+
+    @Autowired
+    SnackService oSnackService;
+
+    @Autowired
+    BebidaService oBebidaService;
 
     // public Long randomCreate(Long cantidad){
     // if (!oAuthService.isAdmin()){
@@ -104,6 +113,27 @@ public class BonoService implements ServiceInterface<BonoEntity> {
     public BonoEntity randomSelection() {
         return oBonoRepository.findAll()
                 .get(oRandomService.getRandomInt(0, (int) (oBonoRepository.count() - 1)));
+    }
+
+    public BonoEntity setSnack(Long id, Long idsnack) {
+        BonoEntity oBonoEntity = oBonoRepository.findById(id).get();
+        SnackEntity oSnackEntity = oSnackService.get(idsnack);
+        oBonoEntity.setSnack(oSnackEntity);
+        return oBonoRepository.save(oBonoEntity);
+    }
+
+    public BonoEntity setBebida(Long id, Long idbebida) {
+        BonoEntity oBonoEntity = oBonoRepository.findById(id).get();
+        BebidaEntity oBebidaEntity = oBebidaService.get(idbebida);
+        oBonoEntity.setBebida(oBebidaEntity);
+        return oBonoRepository.save(oBonoEntity);
+    }
+
+    public BonoEntity setZona(Long id, Long idzona) {
+        BonoEntity oBonoEntity = oBonoRepository.findById(id).get();
+        ZonaEntity oZonaEntity = oZonaService.get(idzona);
+        oBonoEntity.setZona(oZonaEntity);
+        return oBonoRepository.save(oBonoEntity);
     }
 
     @Override

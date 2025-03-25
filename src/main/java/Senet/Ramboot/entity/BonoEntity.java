@@ -93,4 +93,20 @@ public class BonoEntity {
         zona = zonaEntity;
     }
 
+    public BebidaEntity getBebida() {
+        return bebida;
+    }
+
+    public void setBebida(BebidaEntity bebida) {
+        this.bebida = bebida;
+    }
+
+    public SnackEntity getSnack() {
+        return snack;
+    }
+
+    public void setSnack(SnackEntity snack) {
+        this.snack = snack;
+    }
+
 }
