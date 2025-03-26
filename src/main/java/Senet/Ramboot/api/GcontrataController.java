@@ -26,14 +26,13 @@ import Senet.Ramboot.service.GcontrataService;
 @RequestMapping("/gcontrata")
 public class GcontrataController {
 
-    @Autowired 
+    @Autowired
     GcontrataService oGcontrataService;
 
-    
     @GetMapping("")
     public ResponseEntity<Page<GcontrataEntity>> getPage(
             Pageable oPageable,
-            @RequestParam  Optional<String> filter) {
+            @RequestParam Optional<String> filter) {
         return new ResponseEntity<Page<GcontrataEntity>>(oGcontrataService.getPage(oPageable, filter), HttpStatus.OK);
     }
 
@@ -51,6 +50,12 @@ public class GcontrataController {
     public ResponseEntity<GcontrataEntity> createGcontrata(@RequestBody GcontrataEntity gcontrata) {
         GcontrataEntity savedGcontrata = oGcontrataService.create(gcontrata);
         return ResponseEntity.ok(savedGcontrata);
+    }
+
+    @PostMapping("/genTicketRandom")
+    public ResponseEntity<String> generarTicketRandom() {
+        String ticketRandom = GcontrataService.generarTicketRandom();
+        return ResponseEntity.ok(ticketRandom);
     }
 
     @PutMapping("")

@@ -14,7 +14,7 @@ import Senet.Ramboot.repository.GcontrataRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class GcontrataService implements ServiceInterface<GcontrataEntity>{
+public class GcontrataService implements ServiceInterface<GcontrataEntity> {
 
     HttpServletRequest oHttpServletRequest;
 
@@ -33,18 +33,16 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity>{
     @Autowired
     UsuarioService oUsuarioService;
 
-    
     GcontrataEntity oGcontrataEntity;
 
+    private String[] arrMetodoPago = { "Tarjeta Bancaria", "Efectivo", "Paypal", "Bizum" };
 
-    private String[] arrMetodoPago = { "Tarjeta Bancaria", "Efectivo",  "Paypal", "Bizum"}; 
-
-        public GcontrataEntity create(GcontrataEntity oGcontrataEntity) {
+    public GcontrataEntity create(GcontrataEntity oGcontrataEntity) {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para crear el contrato");
         }
         return oGcontrataRepository.save(oGcontrataEntity);
-}
+    }
 
     public Page<GcontrataEntity> getPage(Pageable oPageable, Optional<String> filter) {
         if (!oAuthService.isAdmin()) {
@@ -90,7 +88,7 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity>{
         if (oGcontrataEntity.getFecha_creacion() != null) {
             oGcontrataEntityFromDatabase.setFecha_creacion(oGcontrataEntity.getFecha_creacion());
         }
-        if (oGcontrataEntity.getTicket()!= null){
+        if (oGcontrataEntity.getTicket() != null) {
             oGcontrataEntityFromDatabase.setTicket(oGcontrataEntity.getTicket());
         }
         if (oGcontrataEntity.getMetodoPago() != null) {
@@ -111,38 +109,33 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity>{
         return oGcontrataRepository.findAll()
                 .get(oRandomService.getRandomInt(0, (int) (oGcontrataRepository.count() - 1)));
     }
-    
+
     public static String generarTicketRandom() {
         Random random = new Random();
 
-        
         char letra1 = (char) ('A' + random.nextInt(26));
         char letra2 = (char) ('A' + random.nextInt(26));
         char letra3 = (char) ('A' + random.nextInt(26));
         String letras = "" + letra1 + letra2 + letra3;
 
-        
         int num1 = random.nextInt(10);
         int num2 = random.nextInt(10);
         int num3 = random.nextInt(10);
 
-        
         return letras + num1 + num2 + num3;
     }
 
-
-
     @Override
     public Long randomCreate(Long cantidad) {
-        for(int i = 0; i < cantidad; i++){
+        for (int i = 0; i < cantidad; i++) {
             GcontrataEntity oGcontrataEntity = new GcontrataEntity();
             oGcontrataEntity.setMetodoPago(arrMetodoPago[oRandomService.getRandomInt(0, arrMetodoPago.length - 1)]);
             oGcontrataEntity.setTicket(generarTicketRandom());
             oGcontrataEntity.setZona(oZonaService.randomSelection());
             oGcontrataEntity.setUsuario(oUsuarioService.randomSelection());
-            oGcontrataRepository.save(oGcontrataEntity); 
+            oGcontrataRepository.save(oGcontrataEntity);
         }
-                    
+
         return oGcontrataRepository.count();
     }
 

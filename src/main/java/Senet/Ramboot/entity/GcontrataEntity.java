@@ -2,7 +2,6 @@ package Senet.Ramboot.entity;
 
 import java.sql.Timestamp;
 
-
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +15,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "gcontrata")
 public class GcontrataEntity {
-    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +34,6 @@ public class GcontrataEntity {
     @JoinColumn(name = "id_usuario")
     private UsuarioEntity usuario;
 
-
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinColumn(name = "id_zona")
     private ZonaEntity zona;
@@ -44,19 +41,21 @@ public class GcontrataEntity {
     public GcontrataEntity() {
     }
 
-    public GcontrataEntity(String metodoPago, String ticket, UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(String metodoPago, String ticket, Timestamp fecha_creacion, UsuarioEntity usuario,
+            ZonaEntity zona) {
         this.metodoPago = metodoPago;
         this.ticket = ticket;
+        this.fecha_creacion = new Timestamp(System.currentTimeMillis());
         this.usuario = usuario;
         this.zona = zona;
-        
+
     }
 
-    public GcontrataEntity(Long id,String metodoPago, String ticket, Timestamp fecha_creacion, UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(Long id, String metodoPago, String ticket, UsuarioEntity usuario,
+            ZonaEntity zona) {
         this.id = id;
         this.metodoPago = metodoPago;
-        this.ticket = ticket;   
-        this.fecha_creacion = fecha_creacion;
+        this.ticket = ticket;
         this.usuario = usuario;
         this.zona = zona;
     }
@@ -80,6 +79,7 @@ public class GcontrataEntity {
     public UsuarioEntity getUsuario() {
         return usuario;
     }
+
     public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
@@ -107,8 +107,5 @@ public class GcontrataEntity {
     public void setTicket(String ticket) {
         this.ticket = ticket;
     }
-
-    
-
 
 }
