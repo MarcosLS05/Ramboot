@@ -111,8 +111,8 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
         if (oAuthService.isAdmin()) {
             if (filter.isPresent()) {
                 return oUsuarioRepository
-                        .findByNombreContainingOrApellido1ContainingOrApellido2ContainingOrEmailContaining(
-                                filter.get(), filter.get(), filter.get(), filter.get(),
+                        .findByUsernameContainingOrNombreContainingOrApellido1ContainingOrApellido2ContainingOrEmailContainingOrDNIContaining(
+                                filter.get(), filter.get(), filter.get(), filter.get(), filter.get(), filter.get(),
                                 oPageable);
             } else {
                 return oUsuarioRepository.findAll(oPageable);
