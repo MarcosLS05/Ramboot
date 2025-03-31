@@ -7,13 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
 import Senet.Ramboot.repository.ZonaRepository;
-import Senet.Ramboot.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service

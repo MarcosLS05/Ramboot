@@ -3,10 +3,7 @@ package Senet.Ramboot.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 
-import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "tipousuario")
 public class TipousuarioEntity {

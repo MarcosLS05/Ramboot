@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Senet.Ramboot.entity.SnackEntity;
 import Senet.Ramboot.service.SnackService;
-import Senet.Ramboot.entity.SnackEntity;
+
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)

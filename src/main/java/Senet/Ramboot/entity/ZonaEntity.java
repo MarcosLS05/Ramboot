@@ -3,11 +3,6 @@ package Senet.Ramboot.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.antlr.v4.runtime.misc.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

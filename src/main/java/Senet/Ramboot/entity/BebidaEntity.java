@@ -3,8 +3,6 @@ package Senet.Ramboot.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.validation.constraints.Size;
-
 import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.OneToMany;
@@ -15,7 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "bebidas")
 public class BebidaEntity {
