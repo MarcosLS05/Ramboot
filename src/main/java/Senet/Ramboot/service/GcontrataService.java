@@ -94,6 +94,13 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
         if (oGcontrataEntity.getMetodoPago() != null) {
             oGcontrataEntityFromDatabase.setMetodoPago(oGcontrataEntity.getMetodoPago());
         }
+        if (oGcontrataEntity.getZona() != null) {
+            oGcontrataEntityFromDatabase.setZona(oGcontrataEntity.getZona());
+        }
+        if (oGcontrataEntity.getUsuario() != null) {
+            oGcontrataEntityFromDatabase.setUsuario(oGcontrataEntity.getUsuario());
+        }
+        
         return oGcontrataRepository.save(oGcontrataEntityFromDatabase);
     }
 
