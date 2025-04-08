@@ -74,7 +74,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
             oUsuarioEntity.setEmail(
                     "email" + oUsuarioEntity.getNombre() + oRandomService.getRandomInt(999, 9999) + "@gmail.com");
             oUsuarioEntity.setCP(String.format("%05d", oRandomService.getRandomInt(10001, 52080)));
-            oUsuarioEntity.setSaldo(oRandomService.getRandomDouble(0.00, 50.00));
+//            oUsuarioEntity.setSaldo(oRandomService.getRandomDouble(0.00, 50.00));
             oUsuarioEntity.setActive(false);
             oUsuarioEntity.setTipousuario(oTipousuarioService.randomSelection());
             oUsuarioRepository.save(oUsuarioEntity);
@@ -211,7 +211,7 @@ public class UsuarioService implements ServiceInterface<UsuarioEntity> {
             if (oUsuarioEntity.getTelefono() != null) {
                 oUsuarioEntityFromDatabase.setTelefono(oUsuarioEntity.getTelefono());
             }
-            if (oUsuarioEntity.getSaldo() != 0) {
+            if (oUsuarioEntity.getSaldo() != null) {
                 oUsuarioEntityFromDatabase.setSaldo(oUsuarioEntity.getSaldo());
             }
             if (oUsuarioEntity.getFeedback() != null) {

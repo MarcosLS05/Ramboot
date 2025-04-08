@@ -1,5 +1,7 @@
 package Senet.Ramboot.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.Random;
 
@@ -8,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import Senet.Ramboot.entity.GcontrataEntity;
+import Senet.Ramboot.entity.UsuarioEntity;
+import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
 import Senet.Ramboot.repository.GcontrataRepository;
@@ -79,6 +83,39 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
         }
     }
 
+    public GcontrataEntity addImporte(GcontrataEntity oGcontrataEntity, UsuarioEntity oUsuarioEntity, ZonaEntity oZonaEntity) {
+        if (!oAuthService.isAdmin()) {
+            throw new UnauthorizedAccessException("No tienes permisos para añadir importe al contrato");
+        } else {
+            GcontrataEntity nuevoContrato = new GcontrataEntity();
+            nuevoContrato.setImporte(oGcontrataEntity.getImporte());
+            nuevoContrato.setFecha_creacion(oGcontrataEntity.getFecha_creacion());
+            nuevoContrato.setTicket(generarTicketRandom());
+            nuevoContrato.setMetodoPago(oGcontrataEntity.getMetodoPago());
+            nuevoContrato.setUsuario(oUsuarioEntity);
+    
+            // Asignar la zona, usar la zona con ID 1 por defecto si no se proporciona
+            if (oZonaEntity != null) {
+                nuevoContrato.setZona(oZonaEntity);
+            } else {
+                ZonaEntity zonaPorDefecto = oZonaService.get(1L); // Obtener la zona con ID 1
+                nuevoContrato.setZona(zonaPorDefecto);
+            }
+    
+            // Actualizar el saldo del usuario
+            if (oUsuarioEntity != null) {
+                BigDecimal importe = oGcontrataEntity.getImporte() != null ? oGcontrataEntity.getImporte() : BigDecimal.ZERO;
+                BigDecimal saldoActual = oUsuarioEntity.getSaldo() != null ? oUsuarioEntity.getSaldo() : BigDecimal.ZERO;
+                BigDecimal nuevoSaldo = saldoActual.add(importe);
+                oUsuarioEntity.setSaldo(nuevoSaldo);
+                oUsuarioService.update(oUsuarioEntity);
+            }
+    
+            // Guardar el nuevo contrato
+            return oGcontrataRepository.save(nuevoContrato);
+        }
+    }
+
     public GcontrataEntity update(GcontrataEntity oGcontrataEntity) {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para modificar el contrato");
@@ -87,6 +124,9 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
                 .orElseThrow(() -> new ResourceNotFoundException("contrato no encontrado"));
         if (oGcontrataEntity.getFecha_creacion() != null) {
             oGcontrataEntityFromDatabase.setFecha_creacion(oGcontrataEntity.getFecha_creacion());
+        }
+        if(oGcontrataEntity.getImporte() != null) {
+            oGcontrataEntityFromDatabase.setImporte(oGcontrataEntity.getImporte());
         }
         if (oGcontrataEntity.getTicket() != null) {
             oGcontrataEntityFromDatabase.setTicket(oGcontrataEntity.getTicket());
@@ -103,6 +143,16 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
         
         return oGcontrataRepository.save(oGcontrataEntityFromDatabase);
     }
+
+    public Page<GcontrataEntity> getPageXUsuario(Pageable oPageable, Optional<String> filter, Optional<Long> id) {
+        if (id.isEmpty()) {
+            throw new IllegalArgumentException("El ID del usuario no puede estar vacío.");
+        }
+    
+        String filterValue = filter.orElse(null);
+        return oGcontrataRepository.findByUsuarioIdAndFilter(id.get(), filterValue, oPageable);
+    }
+
 
     public Long deleteAll() {
         if (!oAuthService.isAdmin()) {

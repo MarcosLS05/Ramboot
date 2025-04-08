@@ -4,8 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import Senet.Ramboot.entity.UsuarioEntity;
 
@@ -18,6 +20,10 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     Page<UsuarioEntity> findByTipousuarioId(Long id_tipousuario, Pageable oPageable);
 
+
+    @Query(value = "SELECT * FROM usuarios u WHERE u.username LIKE %:username%", nativeQuery = true)
+    List<UsuarioEntity> findByUsernameContaining(@Param("username") String username);
+
     @Query(value = "SELECT * FROM usuario WHERE (nombre LIKE %:strNombre% OR apellido1 LIKE %:strApellido1% OR apellido2 LIKE %:strApellido2% OR email LIKE %:strEmail%) AND id_tipousuario=:id_tipousuario", nativeQuery = true)
     Page<UsuarioEntity> findByTipousuarioIdAndTituloContaining(Long id_tipousuario, String filter1, Pageable oPageable);
 
@@ -25,4 +31,5 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
             String filter2, String filter3, String filter4, String filter5, String filter6, String filter7,
             Pageable oPageable);
 
+   
 }

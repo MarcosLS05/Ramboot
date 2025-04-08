@@ -19,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Senet.Ramboot.entity.GcontrataEntity;
+import Senet.Ramboot.entity.UsuarioEntity;
+import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.service.GcontrataService;
+import Senet.Ramboot.service.UsuarioService;
+import Senet.Ramboot.service.ZonaService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
@@ -28,6 +32,13 @@ public class GcontrataController {
 
     @Autowired
     GcontrataService oGcontrataService;
+
+    @Autowired
+    private UsuarioService oUsuarioService;
+
+    @Autowired
+    private ZonaService oZonaService;
+
 
     @GetMapping("")
     public ResponseEntity<Page<GcontrataEntity>> getPage(
@@ -52,6 +63,23 @@ public class GcontrataController {
         return ResponseEntity.ok(savedGcontrata);
     }
 
+@PostMapping("/add-importe")
+public ResponseEntity<GcontrataEntity> addImporte(
+        @RequestBody GcontrataEntity oGcontrataEntity,
+        @RequestParam Long usuarioId,
+        @RequestParam(required = false) Long zonaId) {
+    // Buscar el usuario por su ID
+    UsuarioEntity oUsuarioEntity = oUsuarioService.get(usuarioId);
+
+    // Buscar la zona por su ID si se proporciona
+    ZonaEntity oZonaEntity = (zonaId != null) ? oZonaService.get(zonaId) : null;
+
+    // Llamar al servicio para crear el contrato y actualizar el saldo del usuario
+    GcontrataEntity nuevoContrato = oGcontrataService.addImporte(oGcontrataEntity, oUsuarioEntity, oZonaEntity);
+
+    return new ResponseEntity<>(nuevoContrato, HttpStatus.CREATED);
+}
+
     @PostMapping("/genTicketRandom")
     public ResponseEntity<String> generarTicketRandom() {
         String ticketRandom = GcontrataService.generarTicketRandom();
@@ -61,6 +89,15 @@ public class GcontrataController {
     @PutMapping("")
     public ResponseEntity<GcontrataEntity> update(@RequestBody GcontrataEntity oGcontrataEntity) {
         return new ResponseEntity<GcontrataEntity>(oGcontrataService.update(oGcontrataEntity), HttpStatus.OK);
+    }
+
+    @GetMapping("/xusuario/{id}")
+    public ResponseEntity<Page<GcontrataEntity>> getPageXUsuario(
+            Pageable oPageable,
+            @RequestParam Optional<String> filter,
+            @PathVariable Optional<Long> id) {
+        return new ResponseEntity<Page<GcontrataEntity>>(oGcontrataService.getPageXUsuario(oPageable, filter, id),
+                HttpStatus.OK);
     }
 
     @DeleteMapping("/all")

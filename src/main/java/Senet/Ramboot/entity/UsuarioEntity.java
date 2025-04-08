@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,7 +71,7 @@ public class UsuarioEntity {
     @Column(nullable = false, name = "is_active")
     private boolean isActive;
 
-    private double saldo;
+    private BigDecimal saldo;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<GcontrataEntity> Gcontrata;
@@ -82,7 +84,7 @@ public class UsuarioEntity {
     }
 
     public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email,
-            boolean isActive, String DNI, String feedback, String CP, double saldo, Long telefono,
+            boolean isActive, String DNI, String feedback, String CP, BigDecimal saldo, Long telefono,
             TipousuarioEntity tipousuario) {
         this.username = username;
         this.nombre = nombre;
@@ -101,7 +103,7 @@ public class UsuarioEntity {
     }
 
     public UsuarioEntity(Long id, String username, String nombre, String apellido1, String apellido2, String email,
-            String DNI, String feedback, String CP, double saldo, Long telefono, TipousuarioEntity tipousuario) {
+            String DNI, String feedback, String CP, BigDecimal saldo, Long telefono, TipousuarioEntity tipousuario) {
         this.id = id;
         this.username = username;
         this.nombre = nombre;
@@ -180,11 +182,11 @@ public class UsuarioEntity {
         this.isActive = isActive;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 

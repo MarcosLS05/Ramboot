@@ -1,5 +1,6 @@
 package Senet.Ramboot.api;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Senet.Ramboot.entity.UsuarioEntity;
+import Senet.Ramboot.repository.UsuarioRepository;
 import Senet.Ramboot.service.UsuarioService;
 
 
@@ -29,6 +31,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioService oUsuarioService;
+    
+    @Autowired
+    UsuarioRepository oUsuarioRepository;
 
 
 
@@ -56,6 +61,12 @@ public class UsuarioController {
             @PathVariable Optional<Long> id) {
         return new ResponseEntity<Page<UsuarioEntity>>(oUsuarioService.getPageXTipoUsuario(oPageable, filter, id),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UsuarioEntity>> searchByUsername(@RequestParam String username) {
+        List<UsuarioEntity> usuarios = oUsuarioRepository.findByUsernameContaining(username);
+        return ResponseEntity.ok(usuarios);
     }
 
     @DeleteMapping("/{id}")

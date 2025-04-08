@@ -43,6 +43,11 @@ public class ZonaController {
         return new ResponseEntity<ZonaEntity>(oZonaService.get(id), HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Page<ZonaEntity>> getAll(Pageable oPageable) {
+        return new ResponseEntity<Page<ZonaEntity>>(oZonaService.getAll(oPageable), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         return new ResponseEntity<Long>(oZonaService.delete(id), HttpStatus.OK);

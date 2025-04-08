@@ -1,5 +1,6 @@
 package Senet.Ramboot.entity;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -29,7 +30,10 @@ public class GcontrataEntity {
 
     @CreationTimestamp
     @Column(name = "creado_en")
-    private Timestamp fechaCreacion;
+    private Timestamp fecha_creacion;
+ 
+    
+    private BigDecimal importe;  
 
     @Column(nullable = false, name = "metodo_pago")
     private String metodoPago;
@@ -51,8 +55,9 @@ public class GcontrataEntity {
     // Constructores
     public GcontrataEntity() {}
 
-    public GcontrataEntity(String metodoPago, String ticket, UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(String metodoPago,BigDecimal importe, String ticket, UsuarioEntity usuario, ZonaEntity zona) {
         this.metodoPago = metodoPago;
+        this.importe = importe;
         this.ticket = ticket;
         this.usuario = usuario;
         this.zona = zona;
@@ -62,8 +67,11 @@ public class GcontrataEntity {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Timestamp getFecha_creacion() { return fechaCreacion; }
-    public void setFecha_creacion(Timestamp fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+    public Timestamp getFecha_creacion() { return fecha_creacion; }
+    public void setFecha_creacion(Timestamp fecha_creacion) { this.fecha_creacion = fecha_creacion; }
+
+    public BigDecimal getImporte() { return importe; }
+    public void setImporte(BigDecimal importe) { this.importe = importe; }
 
     public String getMetodoPago() { return metodoPago; }
     public void setMetodoPago(String metodoPago) { this.metodoPago = metodoPago; }

@@ -54,6 +54,13 @@ public Long randomCreate(Long cantidad){
         }
     }
 
+    public Page<ZonaEntity> getAll(Pageable oPageable) {
+        if (!oAuthService.isAdmin()) {
+            throw new UnauthorizedAccessException("No tienes permisos para ver los tipos de usuario");
+        }
+        return oZonaRepository.findAll(oPageable);
+    }
+
     public ZonaEntity get(Long id) {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para ver el tipo de usuario");
