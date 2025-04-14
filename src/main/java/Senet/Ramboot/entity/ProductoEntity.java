@@ -3,9 +3,10 @@ package Senet.Ramboot.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.antlr.v4.runtime.misc.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,36 +16,40 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 @Entity
-@Table(name = "bebidas")
-public class BebidaEntity {
+@Table(name = "producto")
+public class ProductoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    
     @Size(min = 3, max = 255)
     private String nombre;
 
-    @Column(nullable = false)
+    
     private BigDecimal precio_unidad;
 
-    @Column(nullable = false)
+    
     private int stock;
 
-    @OneToMany(mappedBy = "bebida", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     private List<BonoEntity> bonos;
 
-    public BebidaEntity() {
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<GcontrataproductoEntity> gcontrataproductos;
+
+    public ProductoEntity() {
     }
 
-    public BebidaEntity(String nombre, BigDecimal precio_unidad, int stock) {
+    public ProductoEntity(String nombre, BigDecimal precio_unidad, int stock) {
         this.nombre = nombre;
         this.precio_unidad = precio_unidad;
         this.stock = stock;
     }
 
-    public BebidaEntity(Long id, String nombre, BigDecimal precio_unidad, int stock) {
+    public ProductoEntity(Long id, String nombre, BigDecimal precio_unidad, int stock) {
         this.id = id;
         this.nombre = nombre;
         this.precio_unidad = precio_unidad;
@@ -89,6 +94,22 @@ public class BebidaEntity {
         } else {
             return bonos.size();
         }
+    }
+
+    public int getGcontrataproducto() {
+        if (gcontrataproductos == null) {
+            return 0;
+        } else {
+            return gcontrataproductos.size();
+        }
+    }
+
+    public List<GcontrataproductoEntity> getGcontrataproductos() {
+        return gcontrataproductos;
+    }
+    
+    public void setGcontrataproductos(List<GcontrataproductoEntity> gcontrataproductos) {
+        this.gcontrataproductos = gcontrataproductos;
     }
 
 }

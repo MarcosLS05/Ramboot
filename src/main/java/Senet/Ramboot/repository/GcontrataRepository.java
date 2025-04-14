@@ -25,4 +25,7 @@ public interface GcontrataRepository extends JpaRepository<GcontrataEntity, Long
             @Param("filter") String filter,
             Pageable pageable
     );
+
+    @Query(value = "SELECT * FROM gcontrata where id_gcontrataproducto = :idGcontrataproducto", nativeQuery = true)
+    Page<GcontrataEntity> findByIdGcontrataproducto(@Param("idGcontrataproducto") Long idGcontrataproducto, Pageable pageable);
 }

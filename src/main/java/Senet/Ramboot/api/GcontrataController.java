@@ -1,5 +1,7 @@
 package Senet.Ramboot.api;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Senet.Ramboot.entity.GcontrataEntity;
+import Senet.Ramboot.entity.GcontrataproductoEntity;
 import Senet.Ramboot.entity.UsuarioEntity;
 import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.service.GcontrataService;
 import Senet.Ramboot.service.UsuarioService;
 import Senet.Ramboot.service.ZonaService;
+import Senet.Ramboot.DTO.AddimporteRequest;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
@@ -63,22 +67,24 @@ public class GcontrataController {
         return ResponseEntity.ok(savedGcontrata);
     }
 
-@PostMapping("/add-importe")
-public ResponseEntity<GcontrataEntity> addImporte(
-        @RequestBody GcontrataEntity oGcontrataEntity,
-        @RequestParam Long usuarioId,
-        @RequestParam(required = false) Long zonaId) {
-    // Buscar el usuario por su ID
-    UsuarioEntity oUsuarioEntity = oUsuarioService.get(usuarioId);
-
-    // Buscar la zona por su ID si se proporciona
-    ZonaEntity oZonaEntity = (zonaId != null) ? oZonaService.get(zonaId) : null;
-
-    // Llamar al servicio para crear el contrato y actualizar el saldo del usuario
-    GcontrataEntity nuevoContrato = oGcontrataService.addImporte(oGcontrataEntity, oUsuarioEntity, oZonaEntity);
-
-    return new ResponseEntity<>(nuevoContrato, HttpStatus.CREATED);
-}
+    @PostMapping("/add-importe")
+    public ResponseEntity<GcontrataEntity> addImporte(
+            @RequestBody AddimporteRequest request,
+            @RequestParam Long usuarioId) {
+    
+        // Obtener el usuario
+        UsuarioEntity oUsuarioEntity = oUsuarioService.get(usuarioId);
+    
+        // Llamar al servicio para procesar la operación
+        GcontrataEntity nuevoContrato = oGcontrataService.addImporte(
+                request.getGcontrataEntity(),
+                oUsuarioEntity,
+                request.getProductosComprados(),
+                request.getMontoParaSaldo()
+        );
+    
+        return new ResponseEntity<>(nuevoContrato, HttpStatus.CREATED);
+    }
 
     @PostMapping("/genTicketRandom")
     public ResponseEntity<String> generarTicketRandom() {

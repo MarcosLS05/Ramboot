@@ -9,21 +9,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import Senet.Ramboot.entity.BebidaEntity;
+import Senet.Ramboot.entity.ProductoEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
-import Senet.Ramboot.repository.BebidaRepository;
+import Senet.Ramboot.repository.ProductoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class BebidaService {
-        HttpServletRequest oHttpServletRequest;
+public class ProductoService implements ServiceInterface<ProductoEntity> {
+        
+    HttpServletRequest oHttpServletRequest;
 
     @Autowired
     AuthService oAuthService;
       
     @Autowired
-    BebidaRepository oBebidaRepository;
+    ProductoRepository oProductoRepository;
 
     @Autowired
     RandomService oRandomService;
@@ -31,13 +32,13 @@ public class BebidaService {
 
 public Long randomCreate(Long cantidad) {
     for (int i = 0; i < cantidad; i++) {
-        BebidaEntity Bebida = new BebidaEntity();
-        Bebida.setNombre(generarNombreAleatorio());
-        Bebida.setPrecio(generarPrecioAleatorio());
-        Bebida.setStock(generarStockAleatorio());
-        oBebidaRepository.save(Bebida);
+        ProductoEntity Producto = new ProductoEntity();
+        Producto.setNombre(generarNombreAleatorio());
+        Producto.setPrecio(generarPrecioAleatorio());
+        Producto.setStock(generarStockAleatorio());
+        oProductoRepository.save(Producto);
     }
-    return oBebidaRepository.count();
+    return oProductoRepository.count();
 }
 
 private String generarNombreAleatorio() {
@@ -53,29 +54,29 @@ private int generarStockAleatorio() {
     return new Random().nextInt(50) + 1;
 }
 
-    public BebidaEntity create(BebidaEntity oBebidaEntity) {
+    public ProductoEntity create(ProductoEntity oProductoEntity) {
         if (!oAuthService.isAdmin()) {
-            throw new UnauthorizedAccessException("No tienes permisos para crear el Producto");
+            throw new UnauthorizedAccessException("No tienes permisos para crear el producto");
         }
-        return oBebidaRepository.save(oBebidaEntity);
+        return oProductoRepository.save(oProductoEntity);
 }
 
-    public Page<BebidaEntity> getPage(Pageable oPageable, Optional<String> filter) {
+    public Page<ProductoEntity> getPage(Pageable oPageable, Optional<String> filter) {
         if (!oAuthService.isAdmin()) {
-            throw new UnauthorizedAccessException("No tienes permisos para ver los Productos");
+            throw new UnauthorizedAccessException("No tienes permisos para ver los productos");
         }
         if (filter.isPresent()) {
-            return oBebidaRepository.findByNombreContaining(filter.get(), oPageable);
+            return oProductoRepository.findByNombreContaining(filter.get(), oPageable);
         } else {
-            return oBebidaRepository.findAll(oPageable);
+            return oProductoRepository.findAll(oPageable);
         }
     }
 
-    public BebidaEntity get(Long id) {
+    public ProductoEntity get(Long id) {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para ver el Producto");
         }
-        return oBebidaRepository.findById(id)
+        return oProductoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
     }
 
@@ -83,46 +84,46 @@ private int generarStockAleatorio() {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para contar los Productos");
         }
-        return oBebidaRepository.count();
+        return oProductoRepository.count();
     }
 
     public Long delete(Long id) {
         if (oAuthService.isAdmin()) {
-            oBebidaRepository.deleteById(id);
+            oProductoRepository.deleteById(id);
             return 1L;
         } else {
             throw new UnauthorizedAccessException("No tienes permisos para borrar el Producto");
         }
     }
 
-    public BebidaEntity update(BebidaEntity oBebidaEntity) {
+    public ProductoEntity update(ProductoEntity oProductoEntity) {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para modificar el Producto");
         }
-        BebidaEntity oBebidaEntityFromDatabase = oBebidaRepository.findById(oBebidaEntity.getId())
+        ProductoEntity oProductoEntityFromDatabase = oProductoRepository.findById(oProductoEntity.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
-        if (oBebidaEntity.getNombre() != null) {
-            oBebidaEntityFromDatabase.setNombre(oBebidaEntity.getNombre());
+        if (oProductoEntity.getNombre() != null) {
+            oProductoEntityFromDatabase.setNombre(oProductoEntity.getNombre());
         }
-        if (oBebidaEntity.getPrecio() != null){
-            oBebidaEntityFromDatabase.setPrecio(oBebidaEntity.getPrecio());
+        if (oProductoEntity.getPrecio() != null){
+            oProductoEntityFromDatabase.setPrecio(oProductoEntity.getPrecio());
         }
-        if (oBebidaEntity.getStock() != 0){
-            oBebidaEntityFromDatabase.setStock(oBebidaEntity.getStock());
+        if (oProductoEntity.getStock() != 0){
+            oProductoEntityFromDatabase.setStock(oProductoEntity.getStock());
         }
-        return oBebidaRepository.save(oBebidaEntityFromDatabase);
+        return oProductoRepository.save(oProductoEntityFromDatabase);
     }
 
     public Long deleteAll() {
         if (!oAuthService.isAdmin()) {
             throw new UnauthorizedAccessException("No tienes permisos para borrar todos los Productos");
         }
-        oBebidaRepository.deleteAll();
+        oProductoRepository.deleteAll();
         return this.count();
     }
 
-    public BebidaEntity randomSelection() {
-        return oBebidaRepository.findAll()
-                .get(oRandomService.getRandomInt(0, (int) (oBebidaRepository.count() - 1)));
+    public ProductoEntity randomSelection() {
+        return oProductoRepository.findAll()
+                .get(oRandomService.getRandomInt(0, (int) (oProductoRepository.count() - 1)));
     }
 }

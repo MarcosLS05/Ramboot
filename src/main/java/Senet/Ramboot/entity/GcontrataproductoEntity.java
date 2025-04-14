@@ -1,14 +1,13 @@
 package Senet.Ramboot.entity;
 
 
-import java.util.List;
+import java.math.BigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -25,27 +24,28 @@ public class GcontrataproductoEntity {
 
     private int cantidad;
 
+    private BigDecimal importe;  
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_gcontrata")
     private GcontrataEntity gcontrata;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_bebida")
-    private BebidaEntity bebida;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_snack")
-    private SnackEntity snack;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_producto", referencedColumnName = "id")
+    private ProductoEntity producto;
 
     // Constructores
     public GcontrataproductoEntity() {}
 
-    public GcontrataproductoEntity(Long id, int cantidad, GcontrataEntity gcontrata, BebidaEntity bebida, SnackEntity snack) {
+    public GcontrataproductoEntity(Long id, int cantidad,BigDecimal importe, GcontrataEntity gcontrata, ProductoEntity producto) {
         this.id = id;
         this.cantidad = cantidad;
+        this.importe = importe;
         this.gcontrata = gcontrata;
-        this.bebida = bebida;
-        this.snack = snack;
+        this.producto = producto;
     }
 
     // Getters y Setters
@@ -58,9 +58,15 @@ public class GcontrataproductoEntity {
     public GcontrataEntity getGcontrata() { return gcontrata; }
     public void setGcontrata(GcontrataEntity gcontrata) { this.gcontrata = gcontrata; }
 
-    public BebidaEntity getBebida() { return bebida; }
-    public void setBebida(BebidaEntity bebida) { this.bebida = bebida; }
+    public BigDecimal getImporte() { return importe; }
+    public void setImporte(BigDecimal importe) { this.importe = importe; }
 
-    public SnackEntity getSnack() { return snack; }
-    public void setSnack(SnackEntity snack) { this.snack = snack; }
+
+public ProductoEntity getProducto() {
+    return producto;
+}
+
+public void setProducto(ProductoEntity producto) {
+    this.producto = producto;
+}
 }

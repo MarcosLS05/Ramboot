@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import Senet.Ramboot.entity.BebidaEntity;
+import Senet.Ramboot.entity.ProductoEntity;
 import Senet.Ramboot.entity.BonoEntity;
-import Senet.Ramboot.entity.SnackEntity;
 import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
@@ -33,10 +32,7 @@ public class BonoService implements ServiceInterface<BonoEntity> {
     ZonaService oZonaService;
 
     @Autowired
-    SnackService oSnackService;
-
-    @Autowired
-    BebidaService oBebidaService;
+    ProductoService oProductoService;
 
     // public Long randomCreate(Long cantidad){
     // if (!oAuthService.isAdmin()){
@@ -113,17 +109,11 @@ public class BonoService implements ServiceInterface<BonoEntity> {
                 .get(oRandomService.getRandomInt(0, (int) (oBonoRepository.count() - 1)));
     }
 
-    public BonoEntity setSnack(Long id, Long idsnack) {
-        BonoEntity oBonoEntity = oBonoRepository.findById(id).get();
-        SnackEntity oSnackEntity = oSnackService.get(idsnack);
-        oBonoEntity.setSnack(oSnackEntity);
-        return oBonoRepository.save(oBonoEntity);
-    }
 
-    public BonoEntity setBebida(Long id, Long idbebida) {
+    public BonoEntity setProducto(Long id, Long idproducto) {
         BonoEntity oBonoEntity = oBonoRepository.findById(id).get();
-        BebidaEntity oBebidaEntity = oBebidaService.get(idbebida);
-        oBonoEntity.setBebida(oBebidaEntity);
+        ProductoEntity oProductoEntity = oProductoService.get(idproducto);
+        oBonoEntity.setProducto(oProductoEntity);
         return oBonoRepository.save(oBonoEntity);
     }
 

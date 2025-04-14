@@ -1,6 +1,9 @@
 package Senet.Ramboot.entity;
 
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,32 +35,28 @@ public class BonoEntity {
     private ZonaEntity zona;
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
-    @JoinColumn(name = "id_bebida")
-    private BebidaEntity bebida;
+    @JoinColumn(name = "id_producto")
+    private ProductoEntity producto;
 
-    @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
-    @JoinColumn(name = "id_snack")
-    private SnackEntity snack;
 
     public BonoEntity() {
     }
 
-    public BonoEntity(String nombre, BigDecimal precio, ZonaEntity zona, BebidaEntity bebida, SnackEntity snack) {
+    public BonoEntity(String nombre, BigDecimal precio, ZonaEntity zona, ProductoEntity producto) {
         this.nombre = nombre;
         this.precio = precio;
         this.zona = zona;
-        this.bebida = bebida;
-        this.snack = snack;
+        this.producto = producto;
+
     }
 
-    public BonoEntity(Long id, String nombre, BigDecimal precio, ZonaEntity zona, BebidaEntity bebida,
-            SnackEntity snack) {
+    public BonoEntity(Long id, String nombre, BigDecimal precio, ZonaEntity zona, ProductoEntity producto) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.zona = zona;
-        this.bebida = bebida;
-        this.snack = snack;
+        this.producto = producto;
+
     }
 
     public Long getId() {
@@ -92,20 +91,13 @@ public class BonoEntity {
         zona = zonaEntity;
     }
 
-    public BebidaEntity getBebida() {
-        return bebida;
+    public ProductoEntity getProducto() {
+        return producto;
     }
 
-    public void setBebida(BebidaEntity bebida) {
-        this.bebida = bebida;
+    public void setProducto(ProductoEntity producto) {
+        this.producto = producto;
     }
 
-    public SnackEntity getSnack() {
-        return snack;
-    }
-
-    public void setSnack(SnackEntity snack) {
-        this.snack = snack;
-    }
 
 }

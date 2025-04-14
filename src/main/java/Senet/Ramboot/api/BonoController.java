@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import Senet.Ramboot.entity.BonoEntity;
-import Senet.Ramboot.entity.UsuarioEntity;
 import Senet.Ramboot.service.BonoService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
@@ -63,14 +61,10 @@ public class BonoController {
         return new ResponseEntity<Long>(oBonoService.deleteAll(), HttpStatus.OK);
     }
 
-    @PutMapping("/setsnack/{id}/{idsnack}")
-    public ResponseEntity<BonoEntity> setSnack(@PathVariable Long id, @PathVariable Long idsnack) {
-        return new ResponseEntity<BonoEntity>(oBonoService.setSnack(id, idsnack), HttpStatus.OK);
-    }
 
-    @PutMapping("/setbebida/{id}/{idbebida}")
-    public ResponseEntity<BonoEntity> setBebida(@PathVariable Long id, @PathVariable Long idbebida) {
-        return new ResponseEntity<BonoEntity>(oBonoService.setBebida(id, idbebida), HttpStatus.OK);
+    @PutMapping("/setproducto/{id}/{idproducto}")
+    public ResponseEntity<BonoEntity> setProducto(@PathVariable Long id, @PathVariable Long idproducto) {
+        return new ResponseEntity<BonoEntity>(oBonoService.setProducto(id, idproducto), HttpStatus.OK);
     }
 
     @PutMapping("/setzona/{id}/{idzona}")
