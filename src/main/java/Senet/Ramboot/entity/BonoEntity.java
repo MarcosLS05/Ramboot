@@ -34,29 +34,25 @@ public class BonoEntity {
     @JoinColumn(name = "id_zona")
     private ZonaEntity zona;
 
-    @ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
-    @JoinColumn(name = "id_producto")
-    private ProductoEntity producto;
+
 
 
     public BonoEntity() {
     }
 
-    public BonoEntity(String nombre, BigDecimal precio, ZonaEntity zona, ProductoEntity producto) {
+    public BonoEntity(String nombre, BigDecimal precio, ZonaEntity zona) {
         this.nombre = nombre;
         this.precio = precio;
         this.zona = zona;
-        this.producto = producto;
-
+ 
     }
 
-    public BonoEntity(Long id, String nombre, BigDecimal precio, ZonaEntity zona, ProductoEntity producto) {
+    public BonoEntity(Long id, String nombre, BigDecimal precio, ZonaEntity zona ) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.zona = zona;
-        this.producto = producto;
-
+ 
     }
 
     public Long getId() {
@@ -91,13 +87,7 @@ public class BonoEntity {
         zona = zonaEntity;
     }
 
-    public ProductoEntity getProducto() {
-        return producto;
-    }
 
-    public void setProducto(ProductoEntity producto) {
-        this.producto = producto;
-    }
 
 
 }

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import Senet.Ramboot.entity.GcontrataEntity;
 import Senet.Ramboot.entity.GcontrataproductoEntity;
 import Senet.Ramboot.entity.UsuarioEntity;
-import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.service.GcontrataService;
 import Senet.Ramboot.service.UsuarioService;
 import Senet.Ramboot.service.ZonaService;
@@ -40,8 +39,6 @@ public class GcontrataController {
     @Autowired
     private UsuarioService oUsuarioService;
 
-    @Autowired
-    private ZonaService oZonaService;
 
 
     @GetMapping("")

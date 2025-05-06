@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +21,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "gcontrata")
@@ -30,7 +35,7 @@ public class GcontrataEntity {
     @Column(name = "creado_en")
     private Timestamp fecha_creacion;
  
-    
+    @NotNull    
     private BigDecimal importe;  
 
     @Column(nullable = false, name = "metodo_pago")
@@ -47,7 +52,7 @@ public class GcontrataEntity {
     @JoinColumn(name = "id_zona")
     private ZonaEntity zona;
 
-    @OneToMany(mappedBy = "gcontrata", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "gcontrata")
     private List<GcontrataproductoEntity> gcontrataproductos;
 
     // Constructores

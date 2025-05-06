@@ -3,6 +3,9 @@ package Senet.Ramboot.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,6 +33,7 @@ public class ZonaEntity {
     private List<BonoEntity> bonos = new ArrayList<>();
 
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<GcontrataEntity> Gcontrata;
 
     public ZonaEntity() {

@@ -31,8 +31,7 @@ public class BonoService implements ServiceInterface<BonoEntity> {
     @Autowired
     ZonaService oZonaService;
 
-    @Autowired
-    ProductoService oProductoService;
+
 
     // public Long randomCreate(Long cantidad){
     // if (!oAuthService.isAdmin()){
@@ -110,12 +109,6 @@ public class BonoService implements ServiceInterface<BonoEntity> {
     }
 
 
-    public BonoEntity setProducto(Long id, Long idproducto) {
-        BonoEntity oBonoEntity = oBonoRepository.findById(id).get();
-        ProductoEntity oProductoEntity = oProductoService.get(idproducto);
-        oBonoEntity.setProducto(oProductoEntity);
-        return oBonoRepository.save(oBonoEntity);
-    }
 
     public BonoEntity setZona(Long id, Long idzona) {
         BonoEntity oBonoEntity = oBonoRepository.findById(id).get();

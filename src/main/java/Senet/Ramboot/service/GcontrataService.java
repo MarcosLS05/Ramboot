@@ -18,6 +18,7 @@ import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
 import Senet.Ramboot.repository.GcontrataRepository;
+import Senet.Ramboot.repository.GcontrataproductoRepository;
 import Senet.Ramboot.repository.ProductoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -37,6 +38,9 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
 
     @Autowired
     GcontrataRepository oGcontrataRepository;
+
+    @Autowired
+    GcontrataproductoRepository oGcontrataproductoRepository;
 
     @Autowired
     UsuarioService oUsuarioService;
@@ -96,6 +100,7 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
         List<GcontrataproductoEntity> productosComprados,
         BigDecimal montoParaSaldo) {
 
+    // Verificar permisos
     if (!oAuthService.isAdmin()) {
         throw new UnauthorizedAccessException("No tienes permisos para realizar la operación");
     }
@@ -107,7 +112,7 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
     nuevoContrato.setMetodoPago(oGcontrataEntity.getMetodoPago());
     nuevoContrato.setUsuario(oUsuarioEntity);
 
-    // Validar que el monto total de la operación sea suficiente
+    // Validar que el monto total de la operación sea mayor a cero
     BigDecimal montoTotalOperacion = oGcontrataEntity.getImporte();
     if (montoTotalOperacion == null || montoTotalOperacion.compareTo(BigDecimal.ZERO) <= 0) {
         throw new IllegalArgumentException("El monto total de la operación debe ser mayor a cero");
@@ -117,14 +122,18 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
     BigDecimal costoTotalProductos = BigDecimal.ZERO;
     if (productosComprados != null && !productosComprados.isEmpty()) {
         for (GcontrataproductoEntity producto : productosComprados) {
-            costoTotalProductos = costoTotalProductos.add(producto.getImporte());
+            ProductoEntity productoEntity = oProductoRepository.findById(producto.getProducto().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+            BigDecimal precioProducto = productoEntity.getPrecio();
+            if (precioProducto == null) {
+                throw new IllegalArgumentException("El producto no tiene precio definido");
+            }
+            costoTotalProductos = costoTotalProductos.add(precioProducto.multiply(new BigDecimal(producto.getCantidad())));
         }
     }
 
-    // Validar que el monto para saldo y el costo de los productos no excedan el monto total
-    if (montoParaSaldo.add(costoTotalProductos).compareTo(montoTotalOperacion) > 0) {
-        throw new IllegalArgumentException("El monto para saldo y el costo de los productos exceden el monto total de la operación");
-    }
+    // Calcular el importe final sumando el monto para saldo y el costo de los productos
+    BigDecimal importeFinal = montoParaSaldo.add(costoTotalProductos);
 
     // 1. Añadir el monto para saldo al usuario (si aplica)
     if (montoParaSaldo.compareTo(BigDecimal.ZERO) > 0) {
@@ -157,23 +166,24 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
     }
 
     // Registrar el monto total de la operación en el contrato
-    nuevoContrato.setImporte(montoTotalOperacion);
+    nuevoContrato.setImporte(importeFinal);
 
     // Guardar el contrato y los productos
     return oGcontrataRepository.save(nuevoContrato);
 }
 
 
+
 public boolean validarStock(List<GcontrataproductoEntity> productos) {
     for (GcontrataproductoEntity p : productos) {
-        ProductoEntity producto = oProductoRepository.findById(p.getProducto().getId()).orElseThrow();
+        ProductoEntity producto = oProductoRepository.findById(p.getProducto().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + p.getProducto().getId()));
         if (producto.getStock() < p.getCantidad()) {
             return false;
         }
     }
     return true;
 }
-
 
 public void actualizarStock(List<GcontrataproductoEntity> productosComprados) {
     for (GcontrataproductoEntity producto : productosComprados) {
@@ -191,6 +201,19 @@ public void actualizarStock(List<GcontrataproductoEntity> productosComprados) {
         oProductoRepository.save(oProductoEntity);
     }
 }
+
+
+
+
+
+
+
+private BigDecimal costeTotalProducto(Long productoId, int cantidad) {
+    ProductoEntity producto = oProductoRepository.findById(productoId)
+            .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + productoId));
+    return producto.getPrecio().multiply(BigDecimal.valueOf(cantidad));
+}
+
 
 
 

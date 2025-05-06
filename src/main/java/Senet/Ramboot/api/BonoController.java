@@ -62,10 +62,6 @@ public class BonoController {
     }
 
 
-    @PutMapping("/setproducto/{id}/{idproducto}")
-    public ResponseEntity<BonoEntity> setProducto(@PathVariable Long id, @PathVariable Long idproducto) {
-        return new ResponseEntity<BonoEntity>(oBonoService.setProducto(id, idproducto), HttpStatus.OK);
-    }
 
     @PutMapping("/setzona/{id}/{idzona}")
     public ResponseEntity<BonoEntity> setZona(@PathVariable Long id, @PathVariable Long idzona) {

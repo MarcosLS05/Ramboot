@@ -71,6 +71,7 @@ public class UsuarioEntity {
     @Column(nullable = false, name = "is_active")
     private boolean isActive;
 
+    @Column(name = "saldo")
     private BigDecimal saldo;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)

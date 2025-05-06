@@ -3,7 +3,9 @@ package Senet.Ramboot.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
@@ -32,9 +34,6 @@ public class ProductoEntity {
 
     
     private int stock;
-
-    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
-    private List<BonoEntity> bonos;
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -88,13 +87,7 @@ public class ProductoEntity {
         this.stock = stock;
     }
 
-    public int getBono() {
-        if (bonos == null) {
-            return 0;
-        } else {
-            return bonos.size();
-        }
-    }
+ 
 
     public int getGcontrataproducto() {
         if (gcontrataproductos == null) {

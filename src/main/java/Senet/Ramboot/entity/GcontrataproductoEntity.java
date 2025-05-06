@@ -2,6 +2,10 @@ package Senet.Ramboot.entity;
 
 
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +33,7 @@ public class GcontrataproductoEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_gcontrata")
+    @JsonIgnore
     private GcontrataEntity gcontrata;
 
 
