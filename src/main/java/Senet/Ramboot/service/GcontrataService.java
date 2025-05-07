@@ -131,7 +131,7 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
                 }
     
                 BigDecimal importeProducto = precioProducto.multiply(BigDecimal.valueOf(producto.getCantidad()));
-                producto.setImporte(importeProducto); // ✅ Seteamos el importe del producto
+                producto.setImporte(importeProducto);
     
                 costoTotalProductos = costoTotalProductos.add(importeProducto);
             }
@@ -150,7 +150,6 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
     
         // 2. Validar que el saldo del usuario sea suficiente para cubrir el costo de los productos
         if (costoTotalProductos.compareTo(BigDecimal.ZERO) > 0) {
-            BigDecimal saldoActual = oUsuarioEntity.getSaldo() != null ? oUsuarioEntity.getSaldo() : BigDecimal.ZERO;
             
     
             // 3. Validar stock
@@ -174,6 +173,58 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
         // Guardar el contrato y los productos (si hay cascade)
         return oGcontrataRepository.save(nuevoContrato);
     }
+
+
+    public GcontrataEntity addProductos(
+        GcontrataEntity oGcontrataEntity,
+        List<GcontrataproductoEntity> productosComprados) {
+
+    if (!oAuthService.isAdmin()) {
+        throw new UnauthorizedAccessException("No tienes permisos para realizar la operación");
+    }
+
+    // Validar stock antes de continuar
+    if (!validarStock(productosComprados)) {
+        throw new IllegalArgumentException("Uno o más productos no tienen stock suficiente.");
+    }
+
+    // Crear el nuevo contrato
+    GcontrataEntity nuevoContrato = new GcontrataEntity();
+    nuevoContrato.setFecha_creacion(oGcontrataEntity.getFecha_creacion());
+    nuevoContrato.setTicket(generarTicketRandom());
+    nuevoContrato.setMetodoPago(oGcontrataEntity.getMetodoPago());
+
+    // Calcular el costo total de los productos y asociarlos al contrato
+    BigDecimal costoTotalProductos = BigDecimal.ZERO;
+    if (productosComprados != null && !productosComprados.isEmpty()) {
+        for (GcontrataproductoEntity producto : productosComprados) {
+            ProductoEntity productoEntity = oProductoRepository.findById(producto.getProducto().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
+            BigDecimal precioProducto = productoEntity.getPrecio();
+            if (precioProducto == null) {
+                throw new IllegalArgumentException("El producto no tiene precio definido");
+            }
+
+            BigDecimal importeProducto = precioProducto.multiply(BigDecimal.valueOf(producto.getCantidad()));
+            producto.setImporte(importeProducto);
+            producto.setGcontrata(nuevoContrato); // Vincular con contrato
+
+            costoTotalProductos = costoTotalProductos.add(importeProducto);
+        }
+
+        nuevoContrato.setGcontrataproductos(productosComprados);
+    }
+
+    nuevoContrato.setImporte(costoTotalProductos);
+
+    // Actualizar el stock después de validar y calcular
+    actualizarStock(productosComprados);
+
+    return oGcontrataRepository.save(nuevoContrato);
+}
+
+
     
 
 

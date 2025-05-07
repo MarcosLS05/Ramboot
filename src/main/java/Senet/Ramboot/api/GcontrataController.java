@@ -27,6 +27,7 @@ import Senet.Ramboot.service.GcontrataService;
 import Senet.Ramboot.service.UsuarioService;
 import Senet.Ramboot.service.ZonaService;
 import Senet.Ramboot.DTO.AddimporteRequest;
+import Senet.Ramboot.DTO.CompraRequest;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
@@ -82,6 +83,14 @@ public class GcontrataController {
     
         return new ResponseEntity<>(nuevoContrato, HttpStatus.CREATED);
     }
+
+    @PostMapping("/add-producto")
+    public ResponseEntity<GcontrataEntity> addProducto(@RequestBody CompraRequest request) {
+        // Llamar al servicio pasando el DTO
+        GcontrataEntity result = oGcontrataService.addProductos(request.getGcontrata(), request.getProductos());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
 
     @PostMapping("/genTicketRandom")
     public ResponseEntity<String> generarTicketRandom() {
