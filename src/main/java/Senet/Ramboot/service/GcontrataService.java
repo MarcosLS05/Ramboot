@@ -99,78 +99,82 @@ public class GcontrataService implements ServiceInterface<GcontrataEntity> {
         UsuarioEntity oUsuarioEntity,
         List<GcontrataproductoEntity> productosComprados,
         BigDecimal montoParaSaldo) {
-
-    // Verificar permisos
-    if (!oAuthService.isAdmin()) {
-        throw new UnauthorizedAccessException("No tienes permisos para realizar la operación");
-    }
-
-    // Crear el contrato
-    GcontrataEntity nuevoContrato = new GcontrataEntity();
-    nuevoContrato.setFecha_creacion(oGcontrataEntity.getFecha_creacion());
-    nuevoContrato.setTicket(generarTicketRandom());
-    nuevoContrato.setMetodoPago(oGcontrataEntity.getMetodoPago());
-    nuevoContrato.setUsuario(oUsuarioEntity);
-
-    // Validar que el monto total de la operación sea mayor a cero
-    BigDecimal montoTotalOperacion = oGcontrataEntity.getImporte();
-    if (montoTotalOperacion == null || montoTotalOperacion.compareTo(BigDecimal.ZERO) <= 0) {
-        throw new IllegalArgumentException("El monto total de la operación debe ser mayor a cero");
-    }
-
-    // Calcular el costo total de los productos (si hay productos)
-    BigDecimal costoTotalProductos = BigDecimal.ZERO;
-    if (productosComprados != null && !productosComprados.isEmpty()) {
-        for (GcontrataproductoEntity producto : productosComprados) {
-            ProductoEntity productoEntity = oProductoRepository.findById(producto.getProducto().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
-            BigDecimal precioProducto = productoEntity.getPrecio();
-            if (precioProducto == null) {
-                throw new IllegalArgumentException("El producto no tiene precio definido");
+    
+        // Verificar permisos
+        if (!oAuthService.isAdmin()) {
+            throw new UnauthorizedAccessException("No tienes permisos para realizar la operación");
+        }
+    
+        // Crear el contrato
+        GcontrataEntity nuevoContrato = new GcontrataEntity();
+        nuevoContrato.setFecha_creacion(oGcontrataEntity.getFecha_creacion());
+        nuevoContrato.setTicket(generarTicketRandom());
+        nuevoContrato.setMetodoPago(oGcontrataEntity.getMetodoPago());
+        nuevoContrato.setUsuario(oUsuarioEntity);
+    
+        // Validar que el monto total de la operación sea mayor a cero
+        BigDecimal montoTotalOperacion = oGcontrataEntity.getImporte();
+        if (montoTotalOperacion == null || montoTotalOperacion.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El monto total de la operación debe ser mayor a cero");
+        }
+    
+        // Calcular el costo total de los productos y setear importe individual
+        BigDecimal costoTotalProductos = BigDecimal.ZERO;
+        if (productosComprados != null && !productosComprados.isEmpty()) {
+            for (GcontrataproductoEntity producto : productosComprados) {
+                ProductoEntity productoEntity = oProductoRepository.findById(producto.getProducto().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+    
+                BigDecimal precioProducto = productoEntity.getPrecio();
+                if (precioProducto == null) {
+                    throw new IllegalArgumentException("El producto no tiene precio definido");
+                }
+    
+                BigDecimal importeProducto = precioProducto.multiply(BigDecimal.valueOf(producto.getCantidad()));
+                producto.setImporte(importeProducto); // ✅ Seteamos el importe del producto
+    
+                costoTotalProductos = costoTotalProductos.add(importeProducto);
             }
-            costoTotalProductos = costoTotalProductos.add(precioProducto.multiply(new BigDecimal(producto.getCantidad())));
         }
+    
+        // Calcular el importe final sumando el monto para saldo y el costo de los productos
+        BigDecimal importeFinal = montoParaSaldo.add(costoTotalProductos);
+    
+        // 1. Añadir el monto para saldo al usuario (si aplica)
+        if (montoParaSaldo.compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal saldoActual = oUsuarioEntity.getSaldo() != null ? oUsuarioEntity.getSaldo() : BigDecimal.ZERO;
+            BigDecimal nuevoSaldo = saldoActual.add(montoParaSaldo);
+            oUsuarioEntity.setSaldo(nuevoSaldo);
+            oUsuarioService.update(oUsuarioEntity);
+        }
+    
+        // 2. Validar que el saldo del usuario sea suficiente para cubrir el costo de los productos
+        if (costoTotalProductos.compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal saldoActual = oUsuarioEntity.getSaldo() != null ? oUsuarioEntity.getSaldo() : BigDecimal.ZERO;
+            
+    
+            // 3. Validar stock
+            if (!validarStock(productosComprados)) {
+                throw new IllegalArgumentException("No hay suficiente stock para uno o más productos");
+            }
+    
+            // 4. Actualizar stock
+            actualizarStock(productosComprados);
+    
+            // 5. Asociar productos al contrato
+            for (GcontrataproductoEntity producto : productosComprados) {
+                producto.setGcontrata(nuevoContrato);
+            }
+            nuevoContrato.setGcontrataproductos(productosComprados);
+        }
+    
+        // Registrar el importe total en el contrato
+        nuevoContrato.setImporte(importeFinal);
+    
+        // Guardar el contrato y los productos (si hay cascade)
+        return oGcontrataRepository.save(nuevoContrato);
     }
-
-    // Calcular el importe final sumando el monto para saldo y el costo de los productos
-    BigDecimal importeFinal = montoParaSaldo.add(costoTotalProductos);
-
-    // 1. Añadir el monto para saldo al usuario (si aplica)
-    if (montoParaSaldo.compareTo(BigDecimal.ZERO) > 0) {
-        BigDecimal saldoActual = oUsuarioEntity.getSaldo() != null ? oUsuarioEntity.getSaldo() : BigDecimal.ZERO;
-        BigDecimal nuevoSaldo = saldoActual.add(montoParaSaldo);
-        oUsuarioEntity.setSaldo(nuevoSaldo);
-        oUsuarioService.update(oUsuarioEntity);
-    }
-
-    // 2. Validar que el saldo del usuario sea suficiente para cubrir el costo de los productos (si hay productos)
-    if (costoTotalProductos.compareTo(BigDecimal.ZERO) > 0) {
-        BigDecimal saldoActual = oUsuarioEntity.getSaldo() != null ? oUsuarioEntity.getSaldo() : BigDecimal.ZERO;
-        if (saldoActual.compareTo(costoTotalProductos) < 0) {
-            throw new IllegalArgumentException("Saldo insuficiente para realizar la compra de los productos");
-        }
-
-        // 3. Validar stock antes de asociar los productos al contrato
-        if (!validarStock(productosComprados)) {
-            throw new IllegalArgumentException("No hay suficiente stock para uno o más productos");
-        }
-
-        // 4. Actualizar el stock de los productos comprados
-        actualizarStock(productosComprados);
-
-        // 5. Asociar los productos al contrato
-        for (GcontrataproductoEntity producto : productosComprados) {
-            producto.setGcontrata(nuevoContrato); // Asociar el producto al contrato
-        }
-        nuevoContrato.setGcontrataproductos(productosComprados);
-    }
-
-    // Registrar el monto total de la operación en el contrato
-    nuevoContrato.setImporte(importeFinal);
-
-    // Guardar el contrato y los productos
-    return oGcontrataRepository.save(nuevoContrato);
-}
+    
 
 
 

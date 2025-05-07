@@ -52,8 +52,9 @@ public class GcontrataEntity {
     @JoinColumn(name = "id_zona")
     private ZonaEntity zona;
 
-    @OneToMany(mappedBy = "gcontrata")
+    @OneToMany(mappedBy = "gcontrata", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GcontrataproductoEntity> gcontrataproductos;
+    
 
     // Constructores
     public GcontrataEntity() {}
