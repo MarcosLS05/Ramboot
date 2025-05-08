@@ -89,7 +89,7 @@ public class GcontrataController {
         // Llamar al servicio pasando el DTO
         GcontrataEntity result = oGcontrataService.addProductos(request.getGcontrata(), request.getProductos());
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+    }  
     
 
     @PostMapping("/genTicketRandom")
