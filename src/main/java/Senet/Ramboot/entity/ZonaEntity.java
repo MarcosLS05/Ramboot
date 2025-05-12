@@ -32,9 +32,6 @@ public class ZonaEntity {
     @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
     private List<BonoEntity> bonos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<GcontrataEntity> Gcontrata;
 
     public ZonaEntity() {
     }
@@ -75,14 +72,7 @@ public class ZonaEntity {
         this.precioHora = precioHora;
     }
 
-    public int getGcontrata() {
-        if (Gcontrata == null) {
-            return 0;
-        } else {
-            return Gcontrata.size();
-        }
 
-    }
 
     public int getBono() {
         if (bonos == null) {

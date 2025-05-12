@@ -48,9 +48,7 @@ public class GcontrataEntity {
     @JoinColumn(name = "id_usuario")
     private UsuarioEntity usuario;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_zona")
-    private ZonaEntity zona;
+
 
     @OneToMany(mappedBy = "gcontrata", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GcontrataproductoEntity> gcontrataproductos;
@@ -59,12 +57,12 @@ public class GcontrataEntity {
     // Constructores
     public GcontrataEntity() {}
 
-    public GcontrataEntity(String metodoPago,BigDecimal importe, String ticket, UsuarioEntity usuario, ZonaEntity zona) {
+    public GcontrataEntity(String metodoPago,BigDecimal importe, String ticket, UsuarioEntity usuario) {
         this.metodoPago = metodoPago;
         this.importe = importe;
         this.ticket = ticket;
         this.usuario = usuario;
-        this.zona = zona;
+        
     }
 
     // Getters y Setters
@@ -86,8 +84,6 @@ public class GcontrataEntity {
     public UsuarioEntity getUsuario() { return usuario; }
     public void setUsuario(UsuarioEntity usuario) { this.usuario = usuario; }
 
-    public ZonaEntity getZona() { return zona; }
-    public void setZona(ZonaEntity zona) { this.zona = zona; }
 
     public List<GcontrataproductoEntity> getGcontrataproductos() { return gcontrataproductos; }
     public void setGcontrataproductos(List<GcontrataproductoEntity> gcontrataproductos) {

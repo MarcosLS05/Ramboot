@@ -290,9 +290,6 @@ private BigDecimal costeTotalProducto(Long productoId, int cantidad) {
         if (oGcontrataEntity.getMetodoPago() != null) {
             oGcontrataEntityFromDatabase.setMetodoPago(oGcontrataEntity.getMetodoPago());
         }
-        if (oGcontrataEntity.getZona() != null) {
-            oGcontrataEntityFromDatabase.setZona(oGcontrataEntity.getZona());
-        }
         if (oGcontrataEntity.getUsuario() != null) {
             oGcontrataEntityFromDatabase.setUsuario(oGcontrataEntity.getUsuario());
         }
@@ -344,7 +341,7 @@ private BigDecimal costeTotalProducto(Long productoId, int cantidad) {
             GcontrataEntity oGcontrataEntity = new GcontrataEntity();
             oGcontrataEntity.setMetodoPago(arrMetodoPago[oRandomService.getRandomInt(0, arrMetodoPago.length - 1)]);
             oGcontrataEntity.setTicket(generarTicketRandom());
-            oGcontrataEntity.setZona(oZonaService.randomSelection());
+            
             oGcontrataEntity.setUsuario(oUsuarioService.randomSelection());
             oGcontrataRepository.save(oGcontrataEntity);
         }
