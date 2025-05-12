@@ -53,6 +53,13 @@ public class GcontrataController {
         return new ResponseEntity<GcontrataEntity>(oGcontrataService.get(id), HttpStatus.OK);
     }
 
+    @GetMapping("/factura/{id}")
+    public ResponseEntity<GcontrataEntity> getFactura(@PathVariable("id") Long id) {
+    GcontrataEntity gcontrata = oGcontrataService.getFacturaById(id);
+    return ResponseEntity.ok(gcontrata);
+}
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         return new ResponseEntity<Long>(oGcontrataService.delete(id), HttpStatus.OK);

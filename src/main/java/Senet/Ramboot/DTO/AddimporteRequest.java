@@ -8,9 +8,9 @@ import Senet.Ramboot.entity.GcontrataproductoEntity;
 
 public class AddimporteRequest {
 
-    private GcontrataEntity gcontrataEntity; // Representa el contrato
-    private List<GcontrataproductoEntity> productosComprados; // Lista de productos
-    private BigDecimal montoParaSaldo; // Monto para añadir al saldo del usuario
+    private GcontrataEntity gcontrataEntity;  
+    private List<GcontrataproductoEntity> productosComprados;  
+    private BigDecimal montoParaSaldo;  
 
     // Getters y Setters
     public GcontrataEntity getGcontrataEntity() {

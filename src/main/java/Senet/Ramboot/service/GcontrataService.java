@@ -260,14 +260,18 @@ public void actualizarStock(List<GcontrataproductoEntity> productosComprados) {
 
 
 
+    public GcontrataEntity getFacturaById(Long id) {
+    if (!oAuthService.isAdmin()) {
+        throw new UnauthorizedAccessException("No tienes permisos para ver la factura");
+    }
 
-
-
-private BigDecimal costeTotalProducto(Long productoId, int cantidad) {
-    ProductoEntity producto = oProductoRepository.findById(productoId)
-            .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + productoId));
-    return producto.getPrecio().multiply(BigDecimal.valueOf(cantidad));
+    return oGcontrataRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Factura no encontrada"));
 }
+
+
+
+
 
 
 

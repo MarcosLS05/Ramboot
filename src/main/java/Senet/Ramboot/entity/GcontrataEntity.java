@@ -51,7 +51,7 @@ public class GcontrataEntity {
 
 
     @OneToMany(mappedBy = "gcontrata", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GcontrataproductoEntity> gcontrataproductos;
+    private List<GcontrataproductoEntity> gcontrataproducto;
     
 
     // Constructores
@@ -85,8 +85,8 @@ public class GcontrataEntity {
     public void setUsuario(UsuarioEntity usuario) { this.usuario = usuario; }
 
 
-    public List<GcontrataproductoEntity> getGcontrataproductos() { return gcontrataproductos; }
-    public void setGcontrataproductos(List<GcontrataproductoEntity> gcontrataproductos) {
-        this.gcontrataproductos = gcontrataproductos;
+    public List<GcontrataproductoEntity> getGcontrataproductos() { return gcontrataproducto; }
+    public void setGcontrataproductos(List<GcontrataproductoEntity> gcontrataproducto) {
+        this.gcontrataproducto = gcontrataproducto;
     }
 }
