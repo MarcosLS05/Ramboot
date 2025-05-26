@@ -1,5 +1,4 @@
 package Senet.Ramboot.repository;
-import java.security.Timestamp;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -21,6 +20,10 @@ public interface GcontrataRepository extends JpaRepository<GcontrataEntity, Long
     Page<GcontrataEntity> findByTicketContaining(String ticket, Pageable oPageable);
 
     Page<GcontrataEntity> findByUsuarioId(Long idUsuario, Pageable pageable);
+
+        @Query("SELECT g FROM GcontrataEntity g LEFT JOIN FETCH g.gcontrataproducto WHERE g.id = :id")
+        Optional<GcontrataEntity> findByIdWithProductos(@Param("id") Long id);
+
 
     @Query(value = "SELECT * FROM gcontrata WHERE id_usuario = :idUsuario AND (:filter IS NULL OR ticket LIKE %:filter%) ORDER BY creado_en ASC", nativeQuery = true)
     Page<GcontrataEntity> findByUsuarioIdAndFilter(

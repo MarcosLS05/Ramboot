@@ -1,7 +1,6 @@
 package Senet.Ramboot.api;
 
-import java.math.BigDecimal;
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import Senet.Ramboot.entity.GcontrataEntity;
-import Senet.Ramboot.entity.GcontrataproductoEntity;
 import Senet.Ramboot.entity.UsuarioEntity;
 import Senet.Ramboot.service.GcontrataService;
 import Senet.Ramboot.service.UsuarioService;
-import Senet.Ramboot.service.ZonaService;
 import Senet.Ramboot.DTO.AddimporteRequest;
 import Senet.Ramboot.DTO.CompraRequest;
 
@@ -53,11 +50,12 @@ public class GcontrataController {
         return new ResponseEntity<GcontrataEntity>(oGcontrataService.get(id), HttpStatus.OK);
     }
 
-    @GetMapping("/factura/{id}")
-    public ResponseEntity<GcontrataEntity> getFactura(@PathVariable("id") Long id) {
-    GcontrataEntity gcontrata = oGcontrataService.getFacturaById(id);
-    return ResponseEntity.ok(gcontrata);
+@GetMapping("/factura/{id}")
+public ResponseEntity<GcontrataEntity> getFactura(@PathVariable("id") Long id) {
+    GcontrataEntity gcontrataConProductos = oGcontrataService.GetFacturaByID(id);
+    return ResponseEntity.ok(gcontrataConProductos);
 }
+
 
 
     @DeleteMapping("/{id}")

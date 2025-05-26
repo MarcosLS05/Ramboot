@@ -84,6 +84,11 @@ public class UsuarioEntity {
     public UsuarioEntity() {
     }
 
+    public UsuarioEntity(Long id) {
+    this.id = id;
+   }
+
+
     public UsuarioEntity(String username, String nombre, String apellido1, String apellido2, String email,
             boolean isActive, String DNI, String feedback, String CP, BigDecimal saldo, Long telefono,
             TipousuarioEntity tipousuario) {

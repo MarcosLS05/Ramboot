@@ -14,7 +14,6 @@ import Senet.Ramboot.entity.ProductoEntity;
 import Senet.Ramboot.entity.GcontrataEntity;
 import Senet.Ramboot.entity.GcontrataproductoEntity;
 import Senet.Ramboot.entity.UsuarioEntity;
-import Senet.Ramboot.entity.ZonaEntity;
 import Senet.Ramboot.exception.ResourceNotFoundException;
 import Senet.Ramboot.exception.UnauthorizedAccessException;
 import Senet.Ramboot.repository.GcontrataRepository;
@@ -260,14 +259,15 @@ public void actualizarStock(List<GcontrataproductoEntity> productosComprados) {
 
 
 
-    public GcontrataEntity getFacturaById(Long id) {
+public GcontrataEntity GetFacturaByID(Long id) {
     if (!oAuthService.isAdmin()) {
         throw new UnauthorizedAccessException("No tienes permisos para ver la factura");
     }
 
-    return oGcontrataRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Factura no encontrada"));
+    return oGcontrataRepository.findByIdWithProductos(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Factura no encontrada"));
 }
+
 
 
 
